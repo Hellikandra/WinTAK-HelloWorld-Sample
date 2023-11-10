@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hello World Sample", "Hello World Sample.csproj", "{5F60DD11-94C2-4555-BD7C-4333DE142F59}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Debug|x64.ActiveCfg = Release|x64
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Debug|x64.Build.0 = Release|x64
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Release|x64.ActiveCfg = Release|x64
+		{5F60DD11-94C2-4555-BD7C-4333DE142F59}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA8B95AF-9579-4274-BD7C-1E5FE8964A0C}
+	EndGlobalSection
+EndGlobal

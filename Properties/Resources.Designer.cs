@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HelloWorldSample.Properties {
+namespace Hello_World_Sample.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace HelloWorldSample.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HelloWorldSample.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hello_World_Sample.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace HelloWorldSample.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ic_launcher {
+        internal static System.Drawing.Bitmap ic_launcher_24x24 {
             get {
-                object obj = ResourceManager.GetObject("ic_launcher", resourceCulture);
+                object obj = ResourceManager.GetObject("ic_launcher_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

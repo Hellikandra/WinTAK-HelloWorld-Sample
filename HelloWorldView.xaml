@@ -7,6 +7,114 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Hold your mouse over the button for a brief description."/>
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Click on a button for a demonstration" />
+                <Separator/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Layout Examples" FontSize="15" />
+                <Button Content="Larger" Command="{Binding LargerButton}" Margin="0,1,0,1" Foreground="White" Background="Black" BorderBrush="#FF797979" BorderThickness="1,1,1,1" ToolTip=""/>
+                <Button Content="Smaller" Command="{Binding SmallerButton}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip=""/>
+                <Button Content="Show Search Icon" Command="{Binding ShowSearchIcon}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Recycler View" Command="{Binding RecyclerViewBtn}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Tab View" Command="{Binding TabViewBtn}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Overlay View" Command="{Binding OverlayViewBtn}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="DropDown" Command="{Binding DropdownBtn}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Map Movement" FontSize="15"/>
+                <Separator/>
+
+                <Button Content="Fly" Command="{Binding Fly}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Marker Manipulation" FontSize="15"/>
+                <Separator/>
+                <Button Content="Special Marker" Command="{Binding SpecialWheelMarker}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add an Aircraft" Command="{Binding AddAnAircraft}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Marker with SVG Icon" Command="{Binding SvgMarker}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add a Layer" Command="{Binding AddLayer}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Multi Layer" Command="{Binding AddMultiLayer}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Heat Map" Command="{Binding AddHeatMap}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Stale out Marker" Command="{Binding StaleOutMarker}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Streams" Command="{Binding AddStream}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Remove Streams" Command="{Binding RemoveStream}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Coordinate Entry" Command="{Binding CoordinateEntry}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Map Item (CoT) Inspect" Command="{Binding ItemInspect}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Custom Menu Default" Command="{Binding CustomType}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Custom Menu Factory" Command="{Binding CustomMenuFactory}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="ISS Location" Command="{Binding ISSLocation}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Sensor Field of View" Command="{Binding sensorFOV}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Route Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="List Routes" Command="{Binding ListRoutes}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Route" Command="{Binding AddXRoute}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Reroute" Command="{Binding ReXRoute}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Drop Route Example" Command="{Binding dropRoute}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Emergency Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="Emergency" Command="{Binding Emergency}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="No Emergency" Command="{Binding NoEmergency}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Drawing Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="Range/Bearing Circle" Command="{Binding Rbcircle}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Rectangle" Command="{Binding AddRectangle}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Draw Shape Example" Command="{Binding DrawShapes}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Shape to Custom Group" Command="{Binding GroupAdd}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Associate Two MapItems on the Map" Command="{Binding Associations}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="GPS Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="Simulate External GPS" Command="{Binding ExternalGps}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Elevation Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="Query surface data" Command="{Binding SurfaceAtCenter}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Notification Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="Fake Content Provider" Command="{Binding FakeContentProvider}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Notification with Plugin Icon" Command="{Binding PluginNotification}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Notification Spammer" Command="{Binding NotificationSpammer}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Notification With Options" Command="{Binding NotificationWithOptions}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Play a Video with Overlay" Command="{Binding VideoLauncher}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Toolbar Item" Command="{Binding AddToolbarItem}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Add Count to Icon" Command="{Binding AddCountToIcon}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Images and Camera" FontSize="15"/>
+                <Separator/>
+                <Button Content="Launch Camera" Command="{Binding CameraLauncher}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Image Attach" Command="{Binding ImageAttach}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Web View" Command="{Binding WebView}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Map Screenshot" Command="{Binding MapScreenshot}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Speech To Text" FontSize="15"/>
+                <Separator/>
+                <Button Content="Speech To Text" Command="{Binding SpeechToText}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+                <Button Content="Speech To Activity" Command="{Binding SpeechToActivity}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
             
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Sensors" FontSize="15"/>
+                <Separator/>
+                <Button Content="Accelerometer Control Test" Command="{Binding BumpControl}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Navigation" FontSize="15"/>
+                <Separator/>
+                <Button Content="Hook into navigation events" Command="{Binding BtnHookNavigationEvents}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Lower Level Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="Get Images" Command="{Binding GetImages}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Map Layers" FontSize="15"/>
+                <Separator/>
+                <Button Content="Download Map Layer" Command="{Binding DownloadMapLayer}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Spinner Examples" FontSize="15"/>
+                <Separator/>
+                <Button Content="Spinner ?" Command="{Binding Spinner1}" Background="Black" Foreground="White" BorderBrush="#FF797979" Margin="0,1,0,1" ToolTip="Teston Smaller Button"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

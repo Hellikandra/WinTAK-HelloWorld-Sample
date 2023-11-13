@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5F60DD11-94C2-4555-BD7C-4333DE142F59}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>HelloWorldSample</RootNamespace>
-    <AssemblyName>HelloWorldSample</AssemblyName>
+    <RootNamespace>Hello_World_Sample</RootNamespace>
+    <AssemblyName>Hello World Sample</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -186,6 +186,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -194,7 +195,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="assets\ic_launcher.png" />
+    <Resource Include="assets\ic_launcher_24x24.png" />
     <Resource Include="assets\ic_launcher.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

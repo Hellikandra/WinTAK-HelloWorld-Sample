@@ -13,7 +13,7 @@ namespace Hello_World_Sample
 {
     [Button("HelloWorld_HelloWorldButton", "HelloWorld Plugin",
     LargeImage = "pack://application:,,,/Hello World Sample;component/assets/ic_launcher.svg",
-    SmallImage = "pack://application:,,,/Hello World Sample;component/assets/ic_launcher.png")]
+    SmallImage = "pack://application:,,,/Hello World Sample;component/assets/ic_launcher_24x24.png")]
     internal class HelloWorldButton : Button
     {
         private IDockingManager _dockingManager;

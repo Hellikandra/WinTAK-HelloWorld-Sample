@@ -22,7 +22,7 @@ namespace Hello_World_Sample.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Hello_World_Sample.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hello_World_Sample.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Hello_World_Sample.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,1017 @@ namespace Hello_World_Sample.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create an aircraft marker.
+        /// </summary>
+        public static string btnAddAnAircraftDescription {
+            get {
+                return ResourceManager.GetString("btnAddAnAircraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add an Aircraft.
+        /// </summary>
+        public static string btnAddAnAircraftName {
+            get {
+                return ResourceManager.GetString("btnAddAnAircraftName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAddCountToIconDescription {
+            get {
+                return ResourceManager.GetString("btnAddCountToIconDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Count to Icon.
+        /// </summary>
+        public static string btnAddCountToIconName {
+            get {
+                return ResourceManager.GetString("btnAddCountToIconName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAddHeatmapDescription {
+            get {
+                return ResourceManager.GetString("btnAddHeatmapDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Heat Map.
+        /// </summary>
+        public static string btnAddHeatMapName {
+            get {
+                return ResourceManager.GetString("btnAddHeatMapName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Demonstrate how to add a layer.
+        /// </summary>
+        public static string btnAddLayerDescription {
+            get {
+                return ResourceManager.GetString("btnAddLayerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a Layer.
+        /// </summary>
+        public static string btnAddLayerName {
+            get {
+                return ResourceManager.GetString("btnAddLayerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAddMultiLayerDescription {
+            get {
+                return ResourceManager.GetString("btnAddMultiLayerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Multi Layer.
+        /// </summary>
+        public static string btnAddMultiLayerName {
+            get {
+                return ResourceManager.GetString("btnAddMultiLayerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAddRectangleDescription {
+            get {
+                return ResourceManager.GetString("btnAddRectangleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Rectangle.
+        /// </summary>
+        public static string btnAddRectangleName {
+            get {
+                return ResourceManager.GetString("btnAddRectangleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAddStreamDescription {
+            get {
+                return ResourceManager.GetString("btnAddStreamDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Streams.
+        /// </summary>
+        public static string btnAddStreamName {
+            get {
+                return ResourceManager.GetString("btnAddStreamName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAddToolbarItemDescription {
+            get {
+                return ResourceManager.GetString("btnAddToolbarItemDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Toolbar Item.
+        /// </summary>
+        public static string btnAddToolbarItemName {
+            get {
+                return ResourceManager.GetString("btnAddToolbarItemName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAddXRouteDescription {
+            get {
+                return ResourceManager.GetString("btnAddXRouteDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Route.
+        /// </summary>
+        public static string btnAddXRouteName {
+            get {
+                return ResourceManager.GetString("btnAddXRouteName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnAssociationsDescription {
+            get {
+                return ResourceManager.GetString("btnAssociationsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate Two MapItems on the Map.
+        /// </summary>
+        public static string btnAssociationsName {
+            get {
+                return ResourceManager.GetString("btnAssociationsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnBumpControlDescription {
+            get {
+                return ResourceManager.GetString("btnBumpControlDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accelerometer Control Test.
+        /// </summary>
+        public static string btnBumpControlName {
+            get {
+                return ResourceManager.GetString("btnBumpControlName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnCameraLauncherDescription {
+            get {
+                return ResourceManager.GetString("btnCameraLauncherDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Launch Camera.
+        /// </summary>
+        public static string btnCameraLauncherName {
+            get {
+                return ResourceManager.GetString("btnCameraLauncherName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnCoordinateEntryDescription {
+            get {
+                return ResourceManager.GetString("btnCoordinateEntryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coordinate Entry.
+        /// </summary>
+        public static string btnCoordinateEntryName {
+            get {
+                return ResourceManager.GetString("btnCoordinateEntryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnCustomMenuDefaultDescription {
+            get {
+                return ResourceManager.GetString("btnCustomMenuDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Menu Default.
+        /// </summary>
+        public static string btnCustomMenuDefaultName {
+            get {
+                return ResourceManager.GetString("btnCustomMenuDefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnCustomMenuFactoryDescription {
+            get {
+                return ResourceManager.GetString("btnCustomMenuFactoryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Menu Factory.
+        /// </summary>
+        public static string btnCustomMenuFactoryName {
+            get {
+                return ResourceManager.GetString("btnCustomMenuFactoryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnCustomTypeDescription {
+            get {
+                return ResourceManager.GetString("btnCustomTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Type.
+        /// </summary>
+        public static string btnCustomTypeName {
+            get {
+                return ResourceManager.GetString("btnCustomTypeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnDownloadMapLayerDescription {
+            get {
+                return ResourceManager.GetString("btnDownloadMapLayerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Map Layer.
+        /// </summary>
+        public static string btnDownloadMapLayerName {
+            get {
+                return ResourceManager.GetString("btnDownloadMapLayerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnDrawShapesDescription {
+            get {
+                return ResourceManager.GetString("btnDrawShapesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draw Shapes Example.
+        /// </summary>
+        public static string btnDrawShapesName {
+            get {
+                return ResourceManager.GetString("btnDrawShapesName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnDropDownDescription {
+            get {
+                return ResourceManager.GetString("btnDropDownDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DropDown.
+        /// </summary>
+        public static string btnDropDownName {
+            get {
+                return ResourceManager.GetString("btnDropDownName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnDropRouteDescription {
+            get {
+                return ResourceManager.GetString("btnDropRouteDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drop Route Example.
+        /// </summary>
+        public static string btnDropRouteName {
+            get {
+                return ResourceManager.GetString("btnDropRouteName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnEmergencyDescription {
+            get {
+                return ResourceManager.GetString("btnEmergencyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Emergency.
+        /// </summary>
+        public static string btnEmergencyName {
+            get {
+                return ResourceManager.GetString("btnEmergencyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnExternalGpsDescription {
+            get {
+                return ResourceManager.GetString("btnExternalGpsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simulate External GPS.
+        /// </summary>
+        public static string btnExternalGpsName {
+            get {
+                return ResourceManager.GetString("btnExternalGpsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnFakeContentProviderDescription {
+            get {
+                return ResourceManager.GetString("btnFakeContentProviderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fake Content Provider.
+        /// </summary>
+        public static string btnFakeContentProviderName {
+            get {
+                return ResourceManager.GetString("btnFakeContentProviderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pan to a location on the map.
+        /// </summary>
+        public static string btnFlyDescription {
+            get {
+                return ResourceManager.GetString("btnFlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fly.
+        /// </summary>
+        public static string btnFlyName {
+            get {
+                return ResourceManager.GetString("btnFlyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnGetImageDescription {
+            get {
+                return ResourceManager.GetString("btnGetImageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Image.
+        /// </summary>
+        public static string btnGetImageName {
+            get {
+                return ResourceManager.GetString("btnGetImageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnGroupAddDescription {
+            get {
+                return ResourceManager.GetString("btnGroupAddDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Shape to Custom Group.
+        /// </summary>
+        public static string btnGroupAddName {
+            get {
+                return ResourceManager.GetString("btnGroupAddName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnHookNavigationEventsDescription {
+            get {
+                return ResourceManager.GetString("btnHookNavigationEventsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook into navigation events.
+        /// </summary>
+        public static string btnHookNavigationEventsName {
+            get {
+                return ResourceManager.GetString("btnHookNavigationEventsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnImageAttachDescription {
+            get {
+                return ResourceManager.GetString("btnImageAttachDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image Attach.
+        /// </summary>
+        public static string btnImageAttachName {
+            get {
+                return ResourceManager.GetString("btnImageAttachName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnIssLocationDescription {
+            get {
+                return ResourceManager.GetString("btnIssLocationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISS Location.
+        /// </summary>
+        public static string btnIssLocationName {
+            get {
+                return ResourceManager.GetString("btnIssLocationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnItemInspectDescription {
+            get {
+                return ResourceManager.GetString("btnItemInspectDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map Item (CoT) Inspect.
+        /// </summary>
+        public static string btnItemInspectName {
+            get {
+                return ResourceManager.GetString("btnItemInspectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enlarge and move the dockpane.
+        /// </summary>
+        public static string btnLargeDescription {
+            get {
+                return ResourceManager.GetString("btnLargeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Larger.
+        /// </summary>
+        public static string btnLargeName {
+            get {
+                return ResourceManager.GetString("btnLargeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnListRoutesDescription {
+            get {
+                return ResourceManager.GetString("btnListRoutesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List Routes.
+        /// </summary>
+        public static string btnListRoutesName {
+            get {
+                return ResourceManager.GetString("btnListRoutesName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnMapScreenshotDescription {
+            get {
+                return ResourceManager.GetString("btnMapScreenshotDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map Screenshot.
+        /// </summary>
+        public static string btnMapScreenshotName {
+            get {
+                return ResourceManager.GetString("btnMapScreenshotName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnMarkerManipulationDescription {
+            get {
+                return ResourceManager.GetString("btnMarkerManipulationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marker Manipulation.
+        /// </summary>
+        public static string btnMarkerManipulationName {
+            get {
+                return ResourceManager.GetString("btnMarkerManipulationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnNoEmergencyDescription {
+            get {
+                return ResourceManager.GetString("btnNoEmergencyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Emergency.
+        /// </summary>
+        public static string btnNoEmergencyName {
+            get {
+                return ResourceManager.GetString("btnNoEmergencyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnNotificationSpammerDescription {
+            get {
+                return ResourceManager.GetString("btnNotificationSpammerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification Spammer.
+        /// </summary>
+        public static string btnNotificationSpammerName {
+            get {
+                return ResourceManager.GetString("btnNotificationSpammerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnNotificationWithOptionsDescription {
+            get {
+                return ResourceManager.GetString("btnNotificationWithOptionsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification With Options.
+        /// </summary>
+        public static string btnNotificationWithOptionsName {
+            get {
+                return ResourceManager.GetString("btnNotificationWithOptionsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnOverlayViewDescription {
+            get {
+                return ResourceManager.GetString("btnOverlayViewDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overlay View.
+        /// </summary>
+        public static string btnOverlayViewName {
+            get {
+                return ResourceManager.GetString("btnOverlayViewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnPluginNotificationDescription {
+            get {
+                return ResourceManager.GetString("btnPluginNotificationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification with Plugin Icon.
+        /// </summary>
+        public static string btnPluginNotificationName {
+            get {
+                return ResourceManager.GetString("btnPluginNotificationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnRbCircleDescription {
+            get {
+                return ResourceManager.GetString("btnRbCircleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Range/Bearing Circle.
+        /// </summary>
+        public static string btnRbCircleName {
+            get {
+                return ResourceManager.GetString("btnRbCircleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnRecyclerViewDescription {
+            get {
+                return ResourceManager.GetString("btnRecyclerViewDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recycler View.
+        /// </summary>
+        public static string btnRecyclerViewName {
+            get {
+                return ResourceManager.GetString("btnRecyclerViewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnRemoveStreamDescription {
+            get {
+                return ResourceManager.GetString("btnRemoveStreamDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Streams.
+        /// </summary>
+        public static string btnRemoveStreamName {
+            get {
+                return ResourceManager.GetString("btnRemoveStreamName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnReXRouteDescription {
+            get {
+                return ResourceManager.GetString("btnReXRouteDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reroute.
+        /// </summary>
+        public static string btnReXRouteName {
+            get {
+                return ResourceManager.GetString("btnReXRouteName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnSensorFovDescription {
+            get {
+                return ResourceManager.GetString("btnSensorFovDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sensor Field of View.
+        /// </summary>
+        public static string btnSensorFovName {
+            get {
+                return ResourceManager.GetString("btnSensorFovName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show a custom map widget.
+        /// </summary>
+        public static string btnShowSearchIconDescription {
+            get {
+                return ResourceManager.GetString("btnShowSearchIconDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Search Icon.
+        /// </summary>
+        public static string btnShowSearchIconName {
+            get {
+                return ResourceManager.GetString("btnShowSearchIconName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enlarge and move the dockpane.
+        /// </summary>
+        public static string btnSmallerDescription {
+            get {
+                return ResourceManager.GetString("btnSmallerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Smaller.
+        /// </summary>
+        public static string btnSmallerName {
+            get {
+                return ResourceManager.GetString("btnSmallerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a marker with an special radial menu.
+        /// </summary>
+        public static string btnSpecialWheelMarkerDescription {
+            get {
+                return ResourceManager.GetString("btnSpecialWheelMarkerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special Marker.
+        /// </summary>
+        public static string btnSpecialWheelMarkerName {
+            get {
+                return ResourceManager.GetString("btnSpecialWheelMarkerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnSpeechToActivityDescription {
+            get {
+                return ResourceManager.GetString("btnSpeechToActivityDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speech To Activity.
+        /// </summary>
+        public static string btnSpeechToActivityName {
+            get {
+                return ResourceManager.GetString("btnSpeechToActivityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnSpeechToTextDescription {
+            get {
+                return ResourceManager.GetString("btnSpeechToTextDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speech To Text.
+        /// </summary>
+        public static string btnSpeechToTextName {
+            get {
+                return ResourceManager.GetString("btnSpeechToTextName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnSpinner1Description {
+            get {
+                return ResourceManager.GetString("btnSpinner1Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnSpinner1Name {
+            get {
+                return ResourceManager.GetString("btnSpinner1Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnStaleOutMarkerDescription {
+            get {
+                return ResourceManager.GetString("btnStaleOutMarkerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stale out Marker.
+        /// </summary>
+        public static string btnStaleOutMarkerName {
+            get {
+                return ResourceManager.GetString("btnStaleOutMarkerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnSurfaceAtCenterDescription {
+            get {
+                return ResourceManager.GetString("btnSurfaceAtCenterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Query surface data.
+        /// </summary>
+        public static string btnSurfaceAtCenterName {
+            get {
+                return ResourceManager.GetString("btnSurfaceAtCenterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a marker with a SVG Icon.
+        /// </summary>
+        public static string btnSvgMarkerDescription {
+            get {
+                return ResourceManager.GetString("btnSvgMarkerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marker with SVG Icon.
+        /// </summary>
+        public static string btnSvgMarkerName {
+            get {
+                return ResourceManager.GetString("btnSvgMarkerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnTabViewDescription {
+            get {
+                return ResourceManager.GetString("btnTabViewDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tab View.
+        /// </summary>
+        public static string btnTabViewName {
+            get {
+                return ResourceManager.GetString("btnTabViewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnVideoLauncherDescription {
+            get {
+                return ResourceManager.GetString("btnVideoLauncherDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play a Video with Overlay.
+        /// </summary>
+        public static string btnVideoLauncherName {
+            get {
+                return ResourceManager.GetString("btnVideoLauncherName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string btnWebViewDescription {
+            get {
+                return ResourceManager.GetString("btnWebViewDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web View.
+        /// </summary>
+        public static string btnWebViewName {
+            get {
+                return ResourceManager.GetString("btnWebViewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ic_launcher_24x24 {
+        public static System.Drawing.Bitmap ic_launcher_24x24 {
             get {
                 object obj = ResourceManager.GetObject("ic_launcher_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +1081,7 @@ namespace Hello_World_Sample.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] ic_launcher1 {
+        public static byte[] ic_launcher1 {
             get {
                 object obj = ResourceManager.GetObject("ic_launcher1", resourceCulture);
                 return ((byte[])(obj));

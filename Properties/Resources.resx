@@ -117,6 +117,342 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="btnAddAnAircraftDescription" xml:space="preserve">
+    <value>Create an aircraft marker</value>
+  </data>
+  <data name="btnAddAnAircraftName" xml:space="preserve">
+    <value>Add an Aircraft</value>
+  </data>
+  <data name="btnAddCountToIconDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddCountToIconName" xml:space="preserve">
+    <value>Add Count to Icon</value>
+  </data>
+  <data name="btnAddHeatmapDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddHeatMapName" xml:space="preserve">
+    <value>Add Heat Map</value>
+  </data>
+  <data name="btnAddLayerDescription" xml:space="preserve">
+    <value>Demonstrate how to add a layer</value>
+  </data>
+  <data name="btnAddLayerName" xml:space="preserve">
+    <value>Add a Layer</value>
+  </data>
+  <data name="btnAddMultiLayerDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddMultiLayerName" xml:space="preserve">
+    <value>Add Multi Layer</value>
+  </data>
+  <data name="btnAddRectangleDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddRectangleName" xml:space="preserve">
+    <value>Add Rectangle</value>
+  </data>
+  <data name="btnAddStreamDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddStreamName" xml:space="preserve">
+    <value>Add Streams</value>
+  </data>
+  <data name="btnAddToolbarItemDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddToolbarItemName" xml:space="preserve">
+    <value>Add Toolbar Item</value>
+  </data>
+  <data name="btnAddXRouteDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddXRouteName" xml:space="preserve">
+    <value>Add Route</value>
+  </data>
+  <data name="btnAssociationsDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAssociationsName" xml:space="preserve">
+    <value>Associate Two MapItems on the Map</value>
+  </data>
+  <data name="btnBumpControlDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnBumpControlName" xml:space="preserve">
+    <value>Accelerometer Control Test</value>
+  </data>
+  <data name="btnCameraLauncherDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnCameraLauncherName" xml:space="preserve">
+    <value>Launch Camera</value>
+  </data>
+  <data name="btnCoordinateEntryDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnCoordinateEntryName" xml:space="preserve">
+    <value>Coordinate Entry</value>
+  </data>
+  <data name="btnCustomMenuDefaultDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnCustomMenuDefaultName" xml:space="preserve">
+    <value>Custom Menu Default</value>
+  </data>
+  <data name="btnCustomMenuFactoryDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnCustomMenuFactoryName" xml:space="preserve">
+    <value>Custom Menu Factory</value>
+  </data>
+  <data name="btnCustomTypeDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnCustomTypeName" xml:space="preserve">
+    <value>Custom Type</value>
+  </data>
+  <data name="btnDownloadMapLayerDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnDownloadMapLayerName" xml:space="preserve">
+    <value>Download Map Layer</value>
+  </data>
+  <data name="btnDrawShapesDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnDrawShapesName" xml:space="preserve">
+    <value>Draw Shapes Example</value>
+  </data>
+  <data name="btnDropDownDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnDropDownName" xml:space="preserve">
+    <value>DropDown</value>
+  </data>
+  <data name="btnDropRouteDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnDropRouteName" xml:space="preserve">
+    <value>Drop Route Example</value>
+  </data>
+  <data name="btnEmergencyDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnEmergencyName" xml:space="preserve">
+    <value>Emergency</value>
+  </data>
+  <data name="btnExternalGpsDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnExternalGpsName" xml:space="preserve">
+    <value>Simulate External GPS</value>
+  </data>
+  <data name="btnFakeContentProviderDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnFakeContentProviderName" xml:space="preserve">
+    <value>Fake Content Provider</value>
+  </data>
+  <data name="btnFlyDescription" xml:space="preserve">
+    <value>Pan to a location on the map</value>
+  </data>
+  <data name="btnFlyName" xml:space="preserve">
+    <value>Fly</value>
+  </data>
+  <data name="btnGetImageDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnGetImageName" xml:space="preserve">
+    <value>Get Image</value>
+  </data>
+  <data name="btnGroupAddDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnGroupAddName" xml:space="preserve">
+    <value>Add Shape to Custom Group</value>
+  </data>
+  <data name="btnHookNavigationEventsDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnHookNavigationEventsName" xml:space="preserve">
+    <value>Hook into navigation events</value>
+  </data>
+  <data name="btnImageAttachDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnImageAttachName" xml:space="preserve">
+    <value>Image Attach</value>
+  </data>
+  <data name="btnIssLocationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnIssLocationName" xml:space="preserve">
+    <value>ISS Location</value>
+  </data>
+  <data name="btnItemInspectDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnItemInspectName" xml:space="preserve">
+    <value>Map Item (CoT) Inspect</value>
+  </data>
+  <data name="btnLargeDescription" xml:space="preserve">
+    <value>Enlarge and move the dockpane</value>
+  </data>
+  <data name="btnLargeName" xml:space="preserve">
+    <value>Larger</value>
+  </data>
+  <data name="btnListRoutesDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnListRoutesName" xml:space="preserve">
+    <value>List Routes</value>
+  </data>
+  <data name="btnMapScreenshotDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnMapScreenshotName" xml:space="preserve">
+    <value>Map Screenshot</value>
+  </data>
+  <data name="btnMarkerManipulationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnMarkerManipulationName" xml:space="preserve">
+    <value>Marker Manipulation</value>
+  </data>
+  <data name="btnNoEmergencyDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnNoEmergencyName" xml:space="preserve">
+    <value>No Emergency</value>
+  </data>
+  <data name="btnNotificationSpammerDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnNotificationSpammerName" xml:space="preserve">
+    <value>Notification Spammer</value>
+  </data>
+  <data name="btnNotificationWithOptionsDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnNotificationWithOptionsName" xml:space="preserve">
+    <value>Notification With Options</value>
+  </data>
+  <data name="btnOverlayViewDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnOverlayViewName" xml:space="preserve">
+    <value>Overlay View</value>
+  </data>
+  <data name="btnPluginNotificationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnPluginNotificationName" xml:space="preserve">
+    <value>Notification with Plugin Icon</value>
+  </data>
+  <data name="btnRbCircleDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnRbCircleName" xml:space="preserve">
+    <value>Range/Bearing Circle</value>
+  </data>
+  <data name="btnRecyclerViewDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnRecyclerViewName" xml:space="preserve">
+    <value>Recycler View</value>
+  </data>
+  <data name="btnRemoveStreamDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnRemoveStreamName" xml:space="preserve">
+    <value>Remove Streams</value>
+  </data>
+  <data name="btnReXRouteDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnReXRouteName" xml:space="preserve">
+    <value>Reroute</value>
+  </data>
+  <data name="btnSensorFovDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnSensorFovName" xml:space="preserve">
+    <value>Sensor Field of View</value>
+  </data>
+  <data name="btnShowSearchIconDescription" xml:space="preserve">
+    <value>Show a custom map widget</value>
+  </data>
+  <data name="btnShowSearchIconName" xml:space="preserve">
+    <value>Show Search Icon</value>
+  </data>
+  <data name="btnSmallerDescription" xml:space="preserve">
+    <value>Enlarge and move the dockpane</value>
+  </data>
+  <data name="btnSmallerName" xml:space="preserve">
+    <value>Smaller</value>
+  </data>
+  <data name="btnSpecialWheelMarkerDescription" xml:space="preserve">
+    <value>Create a marker with an special radial menu</value>
+  </data>
+  <data name="btnSpecialWheelMarkerName" xml:space="preserve">
+    <value>Special Marker</value>
+  </data>
+  <data name="btnSpeechToActivityDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnSpeechToActivityName" xml:space="preserve">
+    <value>Speech To Activity</value>
+  </data>
+  <data name="btnSpeechToTextDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnSpeechToTextName" xml:space="preserve">
+    <value>Speech To Text</value>
+  </data>
+  <data name="btnSpinner1Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnSpinner1Name" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnStaleOutMarkerDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnStaleOutMarkerName" xml:space="preserve">
+    <value>Stale out Marker</value>
+  </data>
+  <data name="btnSurfaceAtCenterDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnSurfaceAtCenterName" xml:space="preserve">
+    <value>Query surface data</value>
+  </data>
+  <data name="btnSvgMarkerDescription" xml:space="preserve">
+    <value>Create a marker with a SVG Icon</value>
+  </data>
+  <data name="btnSvgMarkerName" xml:space="preserve">
+    <value>Marker with SVG Icon</value>
+  </data>
+  <data name="btnTabViewDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnTabViewName" xml:space="preserve">
+    <value>Tab View</value>
+  </data>
+  <data name="btnVideoLauncherDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnVideoLauncherName" xml:space="preserve">
+    <value>Play a Video with Overlay</value>
+  </data>
+  <data name="btnWebViewDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnWebViewName" xml:space="preserve">
+    <value>Web View</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ic_launcher1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\ic_launcher.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

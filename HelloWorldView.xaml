@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Hello World Sample;component/CustomWidgets.xaml" />
+                <ResourceDictionary Source="/WinTak.UI;component/DefaultTheme.xaml" x:Name="Dict" /> <!-- tak.gov documenation/WinTAK Development/WinTAK UI Design Guide -->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -26,111 +27,111 @@
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Layout Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnLargeName}" Command="{Binding LargerButton}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnLargeDescription}" />
-                <Button Content="{x:Static resx:Resources.btnSmallerName}" Command="{Binding SmallerButton}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSmallerDescription}" />
-                <Button Content="{x:Static resx:Resources.btnShowSearchIconName}" Command="{Binding ShowSearchIcon}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnShowSearchIconDescription}" Click="Button_Click" />
-                <Button Content="{x:Static resx:Resources.btnRecyclerViewName}" Command="{Binding RecyclerViewBtn}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnRecyclerViewDescription}" />
-                <Button Content="{x:Static resx:Resources.btnTabViewName}" Command="{Binding TabViewBtn}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnTabViewDescription}" />
-                <Button Content="{x:Static resx:Resources.btnOverlayViewName}" Command="{Binding OverlayViewBtn}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnOverlayViewDescription}" />
-                <Button Content="{x:Static resx:Resources.btnDropDownName}" Command="{Binding DropdownBtn}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnDropDownDescription}" />
+                <Button Content="{x:Static resx:Resources.btnLargeName}" Command="{Binding LargerButton}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnLargeDescription}" />
+                <Button Content="{x:Static resx:Resources.btnSmallerName}" Command="{Binding SmallerButton}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSmallerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnShowSearchIconName}" Command="{Binding ShowSearchIcon}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnShowSearchIconDescription}" />
+                <Button Content="{x:Static resx:Resources.btnRecyclerViewName}" Command="{Binding RecyclerViewBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnRecyclerViewDescription}" />
+                <Button Content="{x:Static resx:Resources.btnTabViewName}" Command="{Binding TabViewBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnTabViewDescription}" />
+                <Button Content="{x:Static resx:Resources.btnOverlayViewName}" Command="{Binding OverlayViewBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnOverlayViewDescription}" />
+                <Button Content="{x:Static resx:Resources.btnDropDownName}" Command="{Binding DropdownBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnDropDownDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Map Movement" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
 
-                <Button Content="{x:Static resx:Resources.btnFlyName}" Command="{Binding Fly}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnFlyDescription}" />
+                <Button Content="{x:Static resx:Resources.btnFlyName}" Command="{Binding Fly}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnFlyDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Marker Manipulation" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnSpecialWheelMarkerName}" Command="{Binding SpecialMarkerButton}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSpecialWheelMarkerDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddAnAircraftName}" Command="{Binding AddAnAircraft}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddAnAircraftDescription}" />
-                <Button Content="{x:Static resx:Resources.btnSvgMarkerName}" Command="{Binding SvgMarker}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSvgMarkerDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddLayerName}" Command="{Binding AddLayer}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddLayerDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddMultiLayerName}" Command="{Binding AddMultiLayer}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddMultiLayerDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddHeatMapName}" Command="{Binding AddHeatMap}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddHeatmapDescription}" />
-                <Button Content="{x:Static resx:Resources.btnStaleOutMarkerName}" Command="{Binding StaleOutMarker}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnStaleOutMarkerDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddStreamName}" Command="{Binding AddStream}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddStreamDescription}" />
-                <Button Content="{x:Static resx:Resources.btnRemoveStreamName}" Command="{Binding RemoveStream}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnRemoveStreamDescription}" />
-                <Button Content="{x:Static resx:Resources.btnCoordinateEntryName}" Command="{Binding CoordinateEntry}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnCoordinateEntryDescription}" />
-                <Button Content="{x:Static resx:Resources.btnItemInspectName}" Command="{Binding ItemInspect}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnItemInspectDescription}" />
-                <Button Content="{x:Static resx:Resources.btnCustomTypeName}" Command="{Binding CustomType}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnCustomTypeDescription}" />
-                <Button Content="{x:Static resx:Resources.btnCustomMenuFactoryName}" Command="{Binding CustomMenuFactory}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnCustomMenuFactoryDescription}" />
-                <Button Content="{x:Static resx:Resources.btnIssLocationName}" Command="{Binding ISSLocation}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnIssLocationDescription}" />
-                <Button Content="{x:Static resx:Resources.btnSensorFovName}" Command="{Binding sensorFOV}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSensorFovDescription}" />
+                <Button Content="{x:Static resx:Resources.btnSpecialWheelMarkerName}" Command="{Binding SpecialMarkerButton}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSpecialWheelMarkerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddAnAircraftName}" Command="{Binding AddAnAircraft}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddAnAircraftDescription}" />
+                <Button Content="{x:Static resx:Resources.btnSvgMarkerName}" Command="{Binding SvgMarker}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSvgMarkerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddLayerName}" Command="{Binding AddLayer}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddLayerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddMultiLayerName}" Command="{Binding AddMultiLayer}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddMultiLayerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddHeatMapName}" Command="{Binding AddHeatMap}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddHeatmapDescription}" />
+                <Button Content="{x:Static resx:Resources.btnStaleOutMarkerName}" Command="{Binding StaleOutMarker}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnStaleOutMarkerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddStreamName}" Command="{Binding AddStream}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddStreamDescription}" />
+                <Button Content="{x:Static resx:Resources.btnRemoveStreamName}" Command="{Binding RemoveStream}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnRemoveStreamDescription}" />
+                <Button Content="{x:Static resx:Resources.btnCoordinateEntryName}" Command="{Binding CoordinateEntry}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnCoordinateEntryDescription}" />
+                <Button Content="{x:Static resx:Resources.btnItemInspectName}" Command="{Binding ItemInspect}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnItemInspectDescription}" />
+                <Button Content="{x:Static resx:Resources.btnCustomTypeName}" Command="{Binding CustomType}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnCustomTypeDescription}" />
+                <Button Content="{x:Static resx:Resources.btnCustomMenuFactoryName}" Command="{Binding CustomMenuFactory}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnCustomMenuFactoryDescription}" />
+                <Button Content="{x:Static resx:Resources.btnIssLocationName}" Command="{Binding ISSLocation}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnIssLocationDescription}" />
+                <Button Content="{x:Static resx:Resources.btnSensorFovName}" Command="{Binding sensorFOV}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSensorFovDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}"  Text="Route Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnListRoutesName}" Command="{Binding ListRoutes}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnListRoutesDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddXRouteName}" Command="{Binding AddXRoute}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddXRouteDescription}" />
-                <Button Content="{x:Static resx:Resources.btnReXRouteName}" Command="{Binding ReXRoute}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnReXRouteDescription}" />
-                <Button Content="{x:Static resx:Resources.btnDropRouteName}" Command="{Binding dropRoute}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnDropRouteDescription}" />
+                <Button Content="{x:Static resx:Resources.btnListRoutesName}" Command="{Binding ListRoutes}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnListRoutesDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddXRouteName}" Command="{Binding AddXRoute}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddXRouteDescription}" />
+                <Button Content="{x:Static resx:Resources.btnReXRouteName}" Command="{Binding ReXRoute}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnReXRouteDescription}" />
+                <Button Content="{x:Static resx:Resources.btnDropRouteName}" Command="{Binding dropRoute}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnDropRouteDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Emergency Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnEmergencyName}" Command="{Binding Emergency}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnEmergencyDescription}" />
-                <Button Content="{x:Static resx:Resources.btnNoEmergencyName}" Command="{Binding NoEmergency}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnNoEmergencyDescription}" />
+                <Button Content="{x:Static resx:Resources.btnEmergencyName}" Command="{Binding Emergency}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnEmergencyDescription}" />
+                <Button Content="{x:Static resx:Resources.btnNoEmergencyName}" Command="{Binding NoEmergency}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNoEmergencyDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Drawing Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnRbCircleName}" Command="{Binding Rbcircle}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnRbCircleDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddRectangleName}" Command="{Binding AddRectangle}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddRectangleDescription}" />
-                <Button Content="{x:Static resx:Resources.btnDrawShapesName}" Command="{Binding DrawShapes}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnDrawShapesDescription}" />
-                <Button Content="{x:Static resx:Resources.btnGroupAddName}" Command="{Binding GroupAdd}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnGroupAddDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAssociationsName}" Command="{Binding Associations}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAssociationsDescription}" />
+                <Button Content="{x:Static resx:Resources.btnRbCircleName}" Command="{Binding Rbcircle}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnRbCircleDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddRectangleName}" Command="{Binding AddRectangle}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddRectangleDescription}" />
+                <Button Content="{x:Static resx:Resources.btnDrawShapesName}" Command="{Binding DrawShapes}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnDrawShapesDescription}" />
+                <Button Content="{x:Static resx:Resources.btnGroupAddName}" Command="{Binding GroupAdd}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnGroupAddDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAssociationsName}" Command="{Binding Associations}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAssociationsDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="GPS Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnExternalGpsName}" Command="{Binding ExternalGps}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnExternalGpsDescription}" />
+                <Button Content="{x:Static resx:Resources.btnExternalGpsName}" Command="{Binding ExternalGps}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnExternalGpsDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Elevation Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnSurfaceAtCenterName}" Command="{Binding SurfaceAtCenter}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSurfaceAtCenterDescription}" />
+                <Button Content="{x:Static resx:Resources.btnSurfaceAtCenterName}" Command="{Binding SurfaceAtCenter}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSurfaceAtCenterDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Notification Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnFakeContentProviderName}" Command="{Binding FakeContentProvider}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnFakeContentProviderDescription}" />
-                <Button Content="{x:Static resx:Resources.btnPluginNotificationName}" Command="{Binding PluginNotification}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnPluginNotificationDescription}" />
-                <Button Content="{x:Static resx:Resources.btnNotificationSpammerName}" Command="{Binding NotificationSpammer}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnNotificationSpammerDescription}" />
-                <Button Content="{x:Static resx:Resources.btnNotificationWithOptionsName}" Command="{Binding NotificationWithOptions}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnNotificationWithOptionsDescription}" />
-                <Button Content="{x:Static resx:Resources.btnVideoLauncherName}" Command="{Binding VideoLauncher}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnVideoLauncherDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddToolbarItemName}" Command="{Binding AddToolbarItem}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddToolbarItemDescription}" />
-                <Button Content="{x:Static resx:Resources.btnAddCountToIconName}" Command="{Binding AddCountToIcon}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnAddCountToIconDescription}" />
+                <Button Content="{x:Static resx:Resources.btnFakeContentProviderName}" Command="{Binding FakeContentProvider}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnFakeContentProviderDescription}" />
+                <Button Content="{x:Static resx:Resources.btnPluginNotificationName}" Command="{Binding PluginNotification}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnPluginNotificationDescription}" />
+                <Button Content="{x:Static resx:Resources.btnNotificationSpammerName}" Command="{Binding NotificationSpammer}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationSpammerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnNotificationWithOptionsName}" Command="{Binding NotificationWithOptions}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationWithOptionsDescription}" />
+                <Button Content="{x:Static resx:Resources.btnVideoLauncherName}" Command="{Binding VideoLauncher}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnVideoLauncherDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddToolbarItemName}" Command="{Binding AddToolbarItem}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddToolbarItemDescription}" />
+                <Button Content="{x:Static resx:Resources.btnAddCountToIconName}" Command="{Binding AddCountToIcon}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddCountToIconDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Images and Camera" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnCameraLauncherName}" Command="{Binding CameraLauncher}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnCameraLauncherDescription}" />
-                <Button Content="{x:Static resx:Resources.btnImageAttachName}" Command="{Binding ImageAttach}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnImageAttachDescription}" />
-                <Button Content="{x:Static resx:Resources.btnWebViewName}" Command="{Binding WebView}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnWebViewDescription}" />
-                <Button Content="{x:Static resx:Resources.btnMapScreenshotName}" Command="{Binding MapScreenshot}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnMapScreenshotDescription}" />
+                <Button Content="{x:Static resx:Resources.btnCameraLauncherName}" Command="{Binding CameraLauncher}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnCameraLauncherDescription}" />
+                <Button Content="{x:Static resx:Resources.btnImageAttachName}" Command="{Binding ImageAttach}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnImageAttachDescription}" />
+                <Button Content="{x:Static resx:Resources.btnWebViewName}" Command="{Binding WebView}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnWebViewDescription}" />
+                <Button Content="{x:Static resx:Resources.btnMapScreenshotName}" Command="{Binding MapScreenshot}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnMapScreenshotDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Speech To Text" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnSpeechToTextName}" Command="{Binding SpeechToText}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSpeechToTextDescription}" />
-                <Button Content="{x:Static resx:Resources.btnSpeechToActivityName}" Command="{Binding SpeechToActivity}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSpeechToActivityDescription}" />
+                <Button Content="{x:Static resx:Resources.btnSpeechToTextName}" Command="{Binding SpeechToText}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSpeechToTextDescription}" />
+                <Button Content="{x:Static resx:Resources.btnSpeechToActivityName}" Command="{Binding SpeechToActivity}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSpeechToActivityDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Sensors" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnBumpControlName}" Command="{Binding BumpControl}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnBumpControlDescription}" />
+                <Button Content="{x:Static resx:Resources.btnBumpControlName}" Command="{Binding BumpControl}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnBumpControlDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Navigation" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnHookNavigationEventsName}" Command="{Binding BtnHookNavigationEvents}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnHookNavigationEventsDescription}" />
+                <Button Content="{x:Static resx:Resources.btnHookNavigationEventsName}" Command="{Binding BtnHookNavigationEvents}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnHookNavigationEventsDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Lower Level Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnGetImageName}" Command="{Binding GetImages}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnGetImageDescription}" />
+                <Button Content="{x:Static resx:Resources.btnGetImageName}" Command="{Binding GetImages}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnGetImageDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Map Layers" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnDownloadMapLayerName}" Command="{Binding DownloadMapLayer}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnDownloadMapLayerDescription}" />
+                <Button Content="{x:Static resx:Resources.btnDownloadMapLayerName}" Command="{Binding DownloadMapLayer}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnDownloadMapLayerDescription}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Spinner Examples" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                <Button Content="{x:Static resx:Resources.btnSpinner1Name}" Command="{Binding Spinner1}" Style="{StaticResource WinTakButtonDesign}" ToolTip="{x:Static resx:Resources.btnSpinner1Description}" />
+                <Button Content="{x:Static resx:Resources.btnSpinner1Name}" Command="{Binding Spinner1}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnSpinner1Description}" />
 
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Plugin Template Duplicate" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
-                
-                <Button Content="Increase Counter" Command="{Binding IncreaseCounterButton}" Style="{StaticResource WinTakButtonDesign}" ToolTip="Hit the button to increase the counter" />
+
+                <Button Content="Increase Counter" Command="{Binding IncreaseCounterButton}" Style="{StaticResource DarkButtonStyle}" ToolTip="Hit the button to increase the counter" />
                 <TextBlock Text="{Binding Counter}" />
                 <ToggleButton Content="(de)activate" IsChecked="{Binding MapFunctionIsActivate}" Style="{StaticResource WinTakToggleButtonDesign}" ToolTip="Hit the button to (de)activate mouse GPS information" />
                 <TextBlock>
@@ -139,6 +140,7 @@
                     <Run Text=" ; Long : " />
                     <Run Text="{Binding MapFunctionLon}" />
                 </TextBlock>
+                <Button Content="White House" Command="{Binding WhiteHouseCoT}" Style="{StaticResource DarkButtonStyle}" ToolTip="" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

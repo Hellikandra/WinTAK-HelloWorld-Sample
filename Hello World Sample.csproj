@@ -52,14 +52,20 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ElevationTools, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\WinTak-ElevationTools.4.10.0.170\lib\ElevationTools.dll</HintPath>
+    </Reference>
     <Reference Include="gdalconst_csharp, Version=2.4.4.0, Culture=neutral, PublicKeyToken=db5a52b08dc5b321, processorArchitecture=AMD64">
       <HintPath>packages\TTP-Dist.2.11.0\lib\netstandard2.0\gdalconst_csharp.dll</HintPath>
     </Reference>
     <Reference Include="gdal_csharp, Version=2.4.4.0, Culture=neutral, PublicKeyToken=db5a52b08dc5b321, processorArchitecture=AMD64">
       <HintPath>packages\TTP-Dist.2.11.0\lib\netstandard2.0\gdal_csharp.dll</HintPath>
     </Reference>
-    <Reference Include="MapEngine.Interop, Version=1.0.8690.34022, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\MapEngine.Interop.dll</HintPath>
+    <Reference Include="Gv2FPlayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\WinTak-Gv2FPlayer.4.10.0.170\lib\Gv2FPlayer.dll</HintPath>
+    </Reference>
+    <Reference Include="MapEngine.Interop, Version=1.0.8724.29445, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\MapEngine.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -79,13 +85,29 @@
     <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>packages\Prism.Wpf.6.3.1\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Spyglass.Graphics, Version=1.0.8690.34040, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\Spyglass.Graphics.dll</HintPath>
+    <Reference Include="RangeBearing, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\WinTak-RangeBearing.4.10.0.170\lib\RangeBearing.dll</HintPath>
+    </Reference>
+    <Reference Include="Spyglass.Graphics, Version=1.0.8724.29462, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\Spyglass.Graphics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Prism.Wpf.6.3.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -103,58 +125,58 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WinTak.Alerts, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Alerts.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Alerts.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Common.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Common.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.CursorOnTarget, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.CursorOnTarget.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.CursorOnTarget.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.CursorOnTarget.Placement, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.CursorOnTarget.Placement.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.CursorOnTarget.Placement.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Display, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Display.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Display.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Export, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Export.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Export.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Framework.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Framework.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Framework.Preferences, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Framework.Preferences.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Framework.Preferences.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Geometry, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Geometry.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Geometry.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Graphics, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Graphics.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Graphics.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Import, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Import.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Import.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Location, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Location.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Location.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Mapping, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Mapping.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Mapping.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.MissionPackages, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.MissionPackages.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.MissionPackages.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Net.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Net.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.Overlays, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.Overlays.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.Overlays.dll</HintPath>
     </Reference>
-    <Reference Include="WinTak.UI, Version=1.1.8690.34060, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.UI.dll</HintPath>
+    <Reference Include="WinTak.UI, Version=1.1.8724.29476, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.UI.dll</HintPath>
     </Reference>
     <Reference Include="WinTak.UI.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\WinTak-Dependencies.4.10.0.167\lib\WinTak.UI.Controls.dll</HintPath>
+      <HintPath>packages\WinTak-Dependencies.4.10.0.170\lib\WinTak.UI.Controls.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -166,15 +188,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Common\ULIDGenerator.cs" />
     <Compile Include="HelloWorldButton.cs" />
     <Compile Include="HelloWorldDockPane.cs" />
     <Compile Include="HelloWorldModule.cs" />
+    <Compile Include="Notifications\HelloWorldNotification.cs" />
     <Compile Include="HelloWorldView.xaml.cs">
       <DependentUpon>HelloWorldView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Preferences\HelloWorldPreferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

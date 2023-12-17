@@ -8,6 +8,7 @@ using System.ComponentModel.Composition;
 using Prism.Events;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
+using WinTak.Alerts;
 
 namespace Hello_World_Sample
 {

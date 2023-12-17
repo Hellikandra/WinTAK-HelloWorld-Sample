@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,12 +11,20 @@ using System.Windows;
 using WinTak.Framework.Docking;
 using WinTak.Framework.Docking.Attributes;
 using MapEngine.Interop.Util;
+
 using WinTak.Display;
 using WinTak.Common.Preferences;
 using WinTak.Common.CoT;
 using WinTak.Common.Services;
 using WinTak.Framework;
-using WinTak.CursorOnTarget.Services;
+using WinTak.Framework.Messaging;
+using WinTak.Framework.Notifications;
+using WinTak.Common.Messaging;
+using WinTak.Common.Commo.Import;
+using WinTak.Graphics;
+using System.Windows.Media;
+using Hello_World_Sample.Notifications;
+using Hello_World_Sample.Common;
 
 namespace Hello_World_Sample
 {
@@ -31,17 +40,28 @@ namespace Hello_World_Sample
 
         public ILogger _logger;
 
+        public INotificationLog _notificationLog;
         // Layout Example
         public ICommand LargerButton { get; private set; }
         public ICommand SmallerButton { get; private set; }
-        public IDockingManager _dockingManager;
-        private ICotMessageSender _cotMessageSender;
+       
+        public IDockingManager DockingManager { get; set; }
+
+        /* Set for all DockPane Panel a new width. It is an after-action variable. Does not dynamically change something
+         * However, if you change it in the application, it will set the value to another one.
+         * */
+        [Export("DefaultWindowWidth")]
+        public double DefaultWindowWidth;
+        //public IDockPaneMetadata _dockPaneMetadata; // The plugin is not launch when the IDockPaneMetadata is set as input in the constructor.
+
         
         
         // Marker Manipulation
         public ICommand SpecialMarkerButton { get; private set; }
         public IDevicePreferences _devicePreferences;
         public ILocationService _locationService;
+
+        private readonly IMessageHub _messageHub;
 
 
         // Plugin Template Duplicate (From WinTAK-Documentation)
@@ -52,23 +72,76 @@ namespace Hello_World_Sample
         private double _mapFunctionLon;
         private bool _mapFunctionIsActivate;
 
+
         // ----- CONSTRUCTOR -----//
         [ImportingConstructor] // this import provide the capability to get WinTAK exposed Interface
-        public HelloWorldDockPane(IDockingManager dockingManager, ILogger logger, ILocationService service, IDevicePreferences devicePreferences, ICotMessageSender cotMessageSender)
+        public HelloWorldDockPane(
+            IDockingManager dockingManager,
+            ILogger logger,
+            ILocationService service,
+            IDevicePreferences devicePreferences,
+            IMessageHub messageHub,
+            INotificationLog notificationLog)
         {
+
+            _logger = logger;
+            _notificationLog = notificationLog;
+            foreach (Notification notification in notificationLog.Notifications)
+            {
+                _logger.Info("HERE IS A NOTIFICATION : " + notification.ToString());
+            }
+
+            HelloWorldNotification hwNotifiction = new HelloWorldNotification();
+            hwNotifiction.Uid = "unique_1";
+            hwNotifiction.Message = "test a notification with HelloWorld";
+            _notificationLog.AddNotification(hwNotifiction);
+            
+
+
+            //Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(assembly => !assembly.IsDynamic)
+            .ToArray();
+
+            _logger.Debug("UNDER TEST TO DETERMINE INFORMATION");
+            foreach (Assembly assembly in assemblies)
+            {
+                try
+                {
+                    var exportedInterfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && type.IsDefined(typeof(InheritedExportAttribute)));
+                    var importedInterfaces = assembly.GetExportedTypes().SelectMany(type => type.GetProperties().Where(prop => prop.PropertyType.IsInterface && prop.IsDefined(typeof(ImportAttribute)))).Select(prop => prop.PropertyType).Distinct();
+
+                    foreach (var exportedInterface in exportedInterfaces)
+                    {
+                        _logger.Debug("EXPORTED INTERFACES: " + exportedInterface.FullName);
+                    }
+
+                    foreach (var importedInterface in importedInterfaces)
+                    {
+                        _logger.Debug("IMPORTED INTERFACES: " + importedInterface.FullName);
+                    }
+                } catch (ReflectionTypeLoadException ex)
+                {
+                    foreach (Exception innerEx in ex.LoaderExceptions)
+                    {
+                        _logger.Error("Error loading assembly: {innerEx.Message}");
+                    }
+                } catch (Exception ex)
+                {
+                    _logger.Error(ex.ToString());
+                }
+            }
+  
+
+            //_logger.Info("test, " + _alert);
             /* Show messages in the log files in the %APPDATA%/roaming/WinTAK/Logs folder */
             /* There is logs files generated depending of the type of Logs recorded in the plugin */
-            _logger = logger;
-            _logger.Info("Test Info Message from HelloWorldDockPane");
-            _logger.Debug("Test Debug Message from HelloWorldDockPane");
-            _logger.Warn("Test Warn Message from HelloworldDockPane");
-            _logger.Error("Test Error Message from HelloworldDockPane");
-            _logger.Fatal("Test Fatal Message from HelloworldDockPane");
             
-            _dockingManager = dockingManager;
+            
+            DockingManager = dockingManager;
             _locationService = service;
             _devicePreferences = devicePreferences;
-            
+  
             // Layout Example - Larger
             var largerCommand = new ExecutedCommand();
             largerCommand.Executed += OnDemandExecuted_LargerButton;
@@ -84,13 +157,15 @@ namespace Hello_World_Sample
             var specialMarkerCommand = new ExecutedCommand();
             specialMarkerCommand.Executed += OnDemandExecuted_SpecialMarkerButton;
             SpecialMarkerButton = specialMarkerCommand;
-            _cotMessageSender = cotMessageSender;
+
+            
+            _messageHub = messageHub;
+            
 
             // Plugin Template Duplicate (From WinTAK-Documentation)
             var counterButtonCommand = new ExecutedCommand();
             counterButtonCommand.Executed += OnDemandeExecuted_IncreaseCounterButton;
             IncreaseCounterButton = counterButtonCommand;
-
         }
 
         private class ExecutedCommand : ICommand
@@ -109,7 +184,6 @@ namespace Hello_World_Sample
             }
 
         }
-
         /* Layout Example
          * --------------
          * Larger button is to Float the Dockpane. 
@@ -117,10 +191,63 @@ namespace Hello_World_Sample
         private void OnDemandExecuted_LargerButton(object sender, EventArgs e)
         {
             _logger.Info("OnDemandExecuted_LargerButton : " + "Float the DockPane.");
+
+            // Testing IAlert
+            
+            // Testing the Float from DockPane
             Size dockPaneFloat = new Size(1024,368);
             Point dockPanePoint = new Point(0,120);
-            this.Float(dockPaneFloat, dockPanePoint, true); // does not work            
+
+            this.Float(dockPaneFloat, dockPanePoint, true); // does not work
+
+            // Testing the DefaultWindowWidth { set; get; }
+            // value is set but seems not working ?
+            _logger.Debug("OnDemandExecuted_LargerButton : From DockingManager : " + DockingManager.DefaultWindowWidth);
+            _logger.Debug("OnDemandExecuted_LargerButton : From Plugin Information : " + this.DefaultWindowWidth);
+            DockingManager.DefaultWindowWidth = 500;
+            _logger.Debug("OnDemandExecuted_LargerButton : After set Plugin Information : " + this.DefaultWindowWidth);
+            this.DefaultWindowWidth = DockingManager.DefaultWindowWidth;
+            _logger.Debug("OnDemandExecuted_LargerButton : Set to Docking Manager : " + DockingManager.DefaultWindowWidth);
+
+            // Testing to get Device Preferences
+            _logger.Info("Testing the DevicePreferences : " + _devicePreferences.Callsign);
+
+            // The Uid shall be Unique to ensure that you can stack it
+            // The Notification need to be a single notification. You need to create a new one if you want to use it again ?
+            // Or is it releated to Type ? Key ? something else ?
+            // Seems that is not the Uid how manage the possibility to have one or more Notification, but more the new ?
+            HelloWorldNotification hwNotifiction = new HelloWorldNotification();
+            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
+            hwNotifiction.StartTime = DateTime.UtcNow;
+            hwNotifiction.Message = "1. test a notification with HelloWorld by clicking on a button";
+            _notificationLog.AddNotification(hwNotifiction);
+            
+            hwNotifiction.Type = ULIDGenerator.GenerateULID(); // can be used to add a Notification information but we cannot see the first information if only type
+            hwNotifiction.Key = ULIDGenerator.GenerateULID();  
+            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
+            hwNotifiction.StartTime = DateTime.UtcNow;
+            hwNotifiction.Message = "2. test a notification with HelloWorld by clicking on a button";
+            _notificationLog.AddNotification(hwNotifiction);
+
+            HelloWorldNotification hwNotifiction_2 = new HelloWorldNotification();
+            hwNotifiction_2.Uid = ULIDGenerator.GenerateULID();
+            hwNotifiction_2.StartTime = DateTime.UtcNow;
+            hwNotifiction_2.Message = "test 2 for HW by clicking";
+            _notificationLog.AddNotification(hwNotifiction_2);
+            // AddNotification is not a stack notifications.
+            // How we can stack it ?
+
         }
+
+        /* Client code can programmatically request WinTAK to focus on a GeoPoint(s) (pan and zoom to). 
+         * This and other actions can be achieved with the WinTak.Framework.Messaging.IMessageHub pub/sub interface.
+         * */
+        private void PanToWhiteHouse()
+        {
+            var message = new FocusMapMessage(new TAKEngine.Core.GeoPoint(38.8977, -77.0365)) { Behavior = WinTak.Common.Events.MapFocusBehavior.PanOnly };
+            _messageHub.Publish(message);
+        }
+
         /* Smaller button is to Hide the Dockpane.
          * */
         private void OnDemandExecuted_SmallerButton(object sender, EventArgs e)
@@ -133,7 +260,6 @@ namespace Hello_World_Sample
         {
             _logger.Info("OnDemandExecuted_ShowSearchIcon : ");
 
-
         }
         // Marker Manipulation - Special Marker
         // -------------------   --------------
@@ -144,7 +270,8 @@ namespace Hello_World_Sample
             {
                 Uid = Guid.NewGuid().ToString(),
                 Type = "a-f-G-U-C-I",
-                How = "h-g-i-g-o"
+                How = "h-g-i-g-o",
+                
             };
             cot.Point.Latitude = 0.0;
             cot.Point.Longitude = 0.0;
@@ -157,6 +284,7 @@ namespace Hello_World_Sample
             Log.d(TAG, "TESTING SOMETHING 2 : " + _devicePreferences.Callsign);
             Log.d(TAG, "device interface was tested to ensure that we can get something ?");
         }
+        // --------------------------
         // Plugin Template Duplicate
         // --------------------------
         // This method is linked to the TextBlock where the counter value is displayed.

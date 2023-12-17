@@ -8,7 +8,7 @@ using System.ComponentModel.Composition;
 using WinTak.Framework.Docking;
 using WinTak.Framework.Tools;
 using WinTak.Framework.Tools.Attributes;
-
+using WinTak.Alerts;
 
 namespace Hello_World_Sample
 {
@@ -22,7 +22,6 @@ namespace Hello_World_Sample
     internal class HelloWorldButton : Button
     {
         private readonly IDockingManager _dockingManager;
-
         [ImportingConstructor]
         public HelloWorldButton(IDockingManager dockingManager)
         {

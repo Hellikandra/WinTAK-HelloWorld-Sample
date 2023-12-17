@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using System.Windows;
-using WinTak.Framework.Docking;
-using WinTak.Framework.Docking.Attributes;
+
 using MapEngine.Interop.Util;
 
 using WinTak.Display;
@@ -17,12 +13,12 @@ using WinTak.Common.Preferences;
 using WinTak.Common.CoT;
 using WinTak.Common.Services;
 using WinTak.Framework;
+using WinTak.Framework.Docking;
+using WinTak.Framework.Docking.Attributes;
 using WinTak.Framework.Messaging;
 using WinTak.Framework.Notifications;
 using WinTak.Common.Messaging;
-using WinTak.Common.Commo.Import;
-using WinTak.Graphics;
-using System.Windows.Media;
+
 using Hello_World_Sample.Notifications;
 using Hello_World_Sample.Common;
 

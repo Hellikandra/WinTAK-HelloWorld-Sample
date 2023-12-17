@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.ComponentModel.Composition;
-using Prism.Events;
+﻿using System.ComponentModel.Composition;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
-using WinTak.Alerts;
 
 namespace Hello_World_Sample
 {

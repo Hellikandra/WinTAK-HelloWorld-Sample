@@ -261,6 +261,12 @@
   <data name="btnFlyName" xml:space="preserve">
     <value>Fly</value>
   </data>
+  <data name="btnGetCurrentNotificationsDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnGetCurrentNotificationsName" xml:space="preserve">
+    <value>Get Current Notifications</value>
+  </data>
   <data name="btnGetImageDescription" xml:space="preserve">
     <value />
   </data>

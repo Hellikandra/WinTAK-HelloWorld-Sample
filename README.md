@@ -10,7 +10,7 @@ This sample include the same layout than the ATAK-HelloWorld plugin.
 
 ### Layout Examples
 - [ ] Larger
-- [ ]  Smaller
+- [ ] Smaller
 - [ ] Show Search Icon
 - [ ] Recycler View
 - [ ] Tab View

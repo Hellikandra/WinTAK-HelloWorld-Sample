@@ -495,6 +495,24 @@ namespace Hello_World_Sample.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string btnGetCurrentNotificationsDescription {
+            get {
+                return ResourceManager.GetString("btnGetCurrentNotificationsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Current Notifications.
+        /// </summary>
+        public static string btnGetCurrentNotificationsName {
+            get {
+                return ResourceManager.GetString("btnGetCurrentNotificationsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string btnGetImageDescription {
             get {
                 return ResourceManager.GetString("btnGetImageDescription", resourceCulture);

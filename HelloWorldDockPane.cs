@@ -4,7 +4,6 @@ using System.Reflection;
 
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using System.Windows;
 
 using MapEngine.Interop.Util;
 
@@ -34,43 +33,108 @@ namespace Hello_World_Sample
         internal const string ID  = "HelloWorld_HelloWorldDockPane";
         internal const string TAG = "HelloWorldDockPane";
 
-        public ILogger _logger;
-
-        public INotificationLog _notificationLog;
-        // Layout Example
-        public ICommand LargerButton { get; private set; }
-        public ICommand SmallerButton { get; private set; }
-       
+        /* Common */
         public IDockingManager DockingManager { get; set; }
-
-        /* Set for all DockPane Panel a new width. It is an after-action variable. Does not dynamically change something
-         * However, if you change it in the application, it will set the value to another one.
-         * */
-        [Export("DefaultWindowWidth")]
-        public double DefaultWindowWidth;
-        //public IDockPaneMetadata _dockPaneMetadata; // The plugin is not launch when the IDockPaneMetadata is set as input in the constructor.
-
-        
-        
-        // Marker Manipulation
-        public ICommand SpecialMarkerButton { get; private set; }
+        // public ILogger _logger; // Or use the Log.x like ATAK
+        private readonly IMessageHub _messageHub;
         public IDevicePreferences _devicePreferences;
         public ILocationService _locationService;
 
-        private readonly IMessageHub _messageHub;
+        /* ***** Layout Examples ***** */
+        public ICommand LargerBtn { get; private set; }
+        public ICommand SmallerBtn { get; private set; }
+        public ICommand ShowSearchIconBtn { get; private set; }
+        public ICommand RecyclerViewBtn {  get; private set; }
+        public ICommand TabViewBtn { get; private set; }
+        public ICommand OverlayViewBtn { get; private set; }
+        public ICommand DropdownBtn { get; private set; }
+
+        /* ***** Map Movement ***** */
+        public ICommand FlyBtn {  get; private set; }
+
+        /* ***** Marker Manipulation ***** */
+        public ICommand SpecialMarkerBtn { get; private set; }
+        public ICommand AddAnAircraftBtn {  get; private set; }
+        public ICommand SvgMarkerBtn { get; private set; }
+        public ICommand AddLayerBtn { get; private set; }
+        public ICommand AddMultiLayerBtn { get; private set; }
+        public ICommand AddHeatMapBtn { get; private set; }
+        public ICommand StaleOutMarkerBtn { get; private set; }
+        public ICommand AddStreamBtn { get; private set; }
+        public ICommand RemoveStreamBtn { get; private set; }
+        public ICommand CoordinateEntryBtn { get; private set; }
+        public ICommand ItemInspectBtn { get; private set; }
+        public ICommand CustomTypeBtn { get; private set; }
+        public ICommand CustomMenuFactoryBtn { get; private set; }
+        public ICommand ISSLocationBtn { get; private set; }
+        public ICommand SensorFOVBtn { get; private set; }
+
+        /* ***** Route Examples ***** */
+        public ICommand ListRoutesBtn { get; private set; }
+        public ICommand AddXRouteBtn { get; private set; }
+        public ICommand ReXRouteBtn { get; private set; }
+        public ICommand DropRouteBtn { get; private set; }
+
+        /* ***** Emergency Examples ***** */
+        public ICommand EmergencyBtn { get; private set; }
+        public ICommand NoEmergencyBtn { get; private set; }
+
+        /* ***** Drawing Examples ***** */
+        public ICommand RbcircleBtn { get; private set; }
+        public ICommand AddRectangleBtn { get; private set; }
+        public ICommand DrawShapesBtn { get; private set; }
+        public ICommand GroupAddBtn { get; private set; }
+        public ICommand AssociationsBtn { get; private set; }
+
+        /* ***** GPS Examples ***** */
+        public ICommand ExternalGpsBtn { get; private set; }
+       
+        /* ***** Elevation Examples ***** */
+        public ICommand SurfaceAtCenterBtn { get; private set; }
+
+        /* ***** Notification Examples ***** */
+        public ICommand GetCurrentNotificationsBtn {  get; private set; }
+        public ICommand FakeContentProviderBtn { get; private set; }
+        public ICommand PluginNotificationBtn { get; private set; }
+        public ICommand NotificationSpammerBtn { get; private set; }
+        public ICommand NotificationWithOptionsBtn { get; private set; }
+        public ICommand VideoLauncherBtn { get; private set; }
+        public ICommand AddToolbarItemBtn { get; private set; }
+        public ICommand AddCountToIconBtn { get; private set; }
+
+        public INotificationLog _notificationLog;
 
 
-        // Plugin Template Duplicate (From WinTAK-Documentation)
+        /* ***** Images and Camera */
+        public ICommand CameraLauncherBtn { get; private set; }
+        public ICommand ImageAttachBtn { get; private set; }
+        public ICommand WebViewBtn { get; private set; }
+        public ICommand MapScreenshotBtn { get; private set; }
+
+        /* ***** Speach To Text ***** */
+        public ICommand SpeechToTextBtn { get; private set; }
+        public ICommand SpeechToActivityBtn { get; private set; }
+        /* ***** Sensors ***** */
+        public ICommand BumpControlBtn { get; private set; }
+        /* ***** Navigation ***** */
+        public ICommand HookNavigationEventsNameBtn { get; private set; }
+        /* ***** Lower Level Examples ***** */
+        public ICommand GetImagesBtn { get; private set; }
+        /* ***** Map Layers ***** */
+        public ICommand DownloadMapLayerBtn { get; private set; }
+        /* ***** Spinner Examples ***** */
+        public ICommand Spinner1Btn { get; private set; }
+        
+        /* ***** Plugin Template Duplicate (From WinTAK-Documentation) ***** */
+        public ICommand IncreaseCounterBtn { get; private set; }
         private int _counter;
-        public ICommand IncreaseCounterButton { get; private set; }
-
         private double _mapFunctionLat;
         private double _mapFunctionLon;
         private bool _mapFunctionIsActivate;
 
 
-        // ----- CONSTRUCTOR -----//
-        [ImportingConstructor] // this import provide the capability to get WinTAK exposed Interface
+        // -- ----- ----- ----- ----- CONSTRUCTOR ----- ----- ----- ----- -- //
+        [ImportingConstructor] // this import provide the capability to get WinTAK exposed Interfaces
         public HelloWorldDockPane(
             IDockingManager dockingManager,
             ILogger logger,
@@ -80,60 +144,8 @@ namespace Hello_World_Sample
             INotificationLog notificationLog)
         {
 
-            _logger = logger;
-            _notificationLog = notificationLog;
-            foreach (Notification notification in notificationLog.Notifications)
-            {
-                _logger.Info("HERE IS A NOTIFICATION : " + notification.ToString());
-            }
-
-            HelloWorldNotification hwNotifiction = new HelloWorldNotification();
-            hwNotifiction.Uid = "unique_1";
-            hwNotifiction.Message = "test a notification with HelloWorld";
-            _notificationLog.AddNotification(hwNotifiction);
-            
-
-
-            //Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(assembly => !assembly.IsDynamic)
-            .ToArray();
-
-            _logger.Debug("UNDER TEST TO DETERMINE INFORMATION");
-            foreach (Assembly assembly in assemblies)
-            {
-                try
-                {
-                    var exportedInterfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && type.IsDefined(typeof(InheritedExportAttribute)));
-                    var importedInterfaces = assembly.GetExportedTypes().SelectMany(type => type.GetProperties().Where(prop => prop.PropertyType.IsInterface && prop.IsDefined(typeof(ImportAttribute)))).Select(prop => prop.PropertyType).Distinct();
-
-                    foreach (var exportedInterface in exportedInterfaces)
-                    {
-                        _logger.Debug("EXPORTED INTERFACES: " + exportedInterface.FullName);
-                    }
-
-                    foreach (var importedInterface in importedInterfaces)
-                    {
-                        _logger.Debug("IMPORTED INTERFACES: " + importedInterface.FullName);
-                    }
-                } catch (ReflectionTypeLoadException ex)
-                {
-                    foreach (Exception innerEx in ex.LoaderExceptions)
-                    {
-                        _logger.Error("Error loading assembly: {innerEx.Message}");
-                    }
-                } catch (Exception ex)
-                {
-                    _logger.Error(ex.ToString());
-                }
-            }
-  
-
-            //_logger.Info("test, " + _alert);
-            /* Show messages in the log files in the %APPDATA%/roaming/WinTAK/Logs folder */
-            /* There is logs files generated depending of the type of Logs recorded in the plugin */
-            
-            
+            //_logger = logger;
+            _messageHub = messageHub;
             DockingManager = dockingManager;
             _locationService = service;
             _devicePreferences = devicePreferences;
@@ -141,29 +153,42 @@ namespace Hello_World_Sample
             // Layout Example - Larger
             var largerCommand = new ExecutedCommand();
             largerCommand.Executed += OnDemandExecuted_LargerButton;
-            LargerButton = largerCommand;
+            LargerBtn = largerCommand;
 
             // Layout Example - Smaller
             var smallerCommand = new ExecutedCommand();
             smallerCommand.Executed += OnDemandExecuted_SmallerButton;
-            SmallerButton = smallerCommand;
+            SmallerBtn = smallerCommand;
 
 
             // Marker Manipulation - Special Marker
             var specialMarkerCommand = new ExecutedCommand();
             specialMarkerCommand.Executed += OnDemandExecuted_SpecialMarkerButton;
-            SpecialMarkerButton = specialMarkerCommand;
+            SpecialMarkerBtn = specialMarkerCommand;
 
-            
-            _messageHub = messageHub;
-            
+
+            // Notification Examples
+            _notificationLog = notificationLog;
+
+            // Notification Examples - Get Current Notifications
+            var getCurrentNotificationsCommand = new ExecutedCommand();
+            getCurrentNotificationsCommand.Executed += OnDemandExecuted_GetCurrentNotificationsBtn;
+            GetCurrentNotificationsBtn = getCurrentNotificationsCommand;
+
+            // Notification Exampkes - Fake Content Provider
+            var fakeContentProviderCommand = new ExecutedCommand();
+            fakeContentProviderCommand.Executed += OnDemandExecuted_FakeContentProviderBtn;
+            FakeContentProviderBtn = fakeContentProviderCommand;
 
             // Plugin Template Duplicate (From WinTAK-Documentation)
             var counterButtonCommand = new ExecutedCommand();
-            counterButtonCommand.Executed += OnDemandeExecuted_IncreaseCounterButton;
-            IncreaseCounterButton = counterButtonCommand;
+            counterButtonCommand.Executed += OnDemandExecuted_IncreaseCounterBtn;
+            IncreaseCounterBtn = counterButtonCommand;
         }
 
+        // --------------------------------------------------------------------
+        // Common Method
+        // --------------------------------------------------------------------
         private class ExecutedCommand : ICommand
         {
             public event EventHandler CanExecuteChanged;
@@ -180,88 +205,133 @@ namespace Hello_World_Sample
             }
 
         }
-        /* Layout Example
-         * --------------
-         * Larger button is to Float the Dockpane. 
+        
+        private void GetMEFActiveInterface(object parameter)
+        {
+            //Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(assembly => !assembly.IsDynamic)
+            .ToArray();
+            Log.d(TAG, "Under test to check information");
+            foreach (Assembly assembly in assemblies)
+            {
+                try
+                {
+                    var exportedInterfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && type.IsDefined(typeof(InheritedExportAttribute)));
+                    var importedInterfaces = assembly.GetExportedTypes().SelectMany(type => type.GetProperties().Where(prop => prop.PropertyType.IsInterface && prop.IsDefined(typeof(ImportAttribute)))).Select(prop => prop.PropertyType).Distinct();
+
+                    foreach (var exportedInterface in exportedInterfaces)
+                    {
+                        Log.d(TAG, MethodBase.GetCurrentMethod() + " Exported Interface : " + exportedInterface.FullName);
+                    }
+
+                    foreach (var importedInterface in importedInterfaces)
+                    {
+                        Log.d(TAG, MethodBase.GetCurrentMethod() + " Imported Interface : " + importedInterface.FullName);
+                    }
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    foreach (Exception innerEx in ex.LoaderExceptions)
+                    {
+                        Log.e(TAG, MethodBase.GetCurrentMethod() + " Error loading assembly: {innerEx.Message}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG, MethodBase.GetCurrentMethod() + ex.ToString());
+                }
+            }
+        }
+        // --------------------------------------------------------------------
+        // Layout Examples
+        // --------------------------------------------------------------------
+        /* Layout Example - Larger Button
+         * --------------------------------------------------------------------
+         * Desc. : Larger button is to Float the Dockpane. 
          * */
         private void OnDemandExecuted_LargerButton(object sender, EventArgs e)
         {
-            _logger.Info("OnDemandExecuted_LargerButton : " + "Float the DockPane.");
-
-            // Testing IAlert
-            
-            // Testing the Float from DockPane
-            Size dockPaneFloat = new Size(1024,368);
-            Point dockPanePoint = new Point(0,120);
-
-            this.Float(dockPaneFloat, dockPanePoint, true); // does not work
-
-            // Testing the DefaultWindowWidth { set; get; }
-            // value is set but seems not working ?
-            _logger.Debug("OnDemandExecuted_LargerButton : From DockingManager : " + DockingManager.DefaultWindowWidth);
-            _logger.Debug("OnDemandExecuted_LargerButton : From Plugin Information : " + this.DefaultWindowWidth);
-            DockingManager.DefaultWindowWidth = 500;
-            _logger.Debug("OnDemandExecuted_LargerButton : After set Plugin Information : " + this.DefaultWindowWidth);
-            this.DefaultWindowWidth = DockingManager.DefaultWindowWidth;
-            _logger.Debug("OnDemandExecuted_LargerButton : Set to Docking Manager : " + DockingManager.DefaultWindowWidth);
-
-            // Testing to get Device Preferences
-            _logger.Info("Testing the DevicePreferences : " + _devicePreferences.Callsign);
-
-            // The Uid shall be Unique to ensure that you can stack it
-            // The Notification need to be a single notification. You need to create a new one if you want to use it again ?
-            // Or is it releated to Type ? Key ? something else ?
-            // Seems that is not the Uid how manage the possibility to have one or more Notification, but more the new ?
-            HelloWorldNotification hwNotifiction = new HelloWorldNotification();
-            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
-            hwNotifiction.StartTime = DateTime.UtcNow;
-            hwNotifiction.Message = "1. test a notification with HelloWorld by clicking on a button";
-            _notificationLog.AddNotification(hwNotifiction);
-            
-            hwNotifiction.Type = ULIDGenerator.GenerateULID(); // can be used to add a Notification information but we cannot see the first information if only type
-            hwNotifiction.Key = ULIDGenerator.GenerateULID();  
-            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
-            hwNotifiction.StartTime = DateTime.UtcNow;
-            hwNotifiction.Message = "2. test a notification with HelloWorld by clicking on a button";
-            _notificationLog.AddNotification(hwNotifiction);
-
-            HelloWorldNotification hwNotifiction_2 = new HelloWorldNotification();
-            hwNotifiction_2.Uid = ULIDGenerator.GenerateULID();
-            hwNotifiction_2.StartTime = DateTime.UtcNow;
-            hwNotifiction_2.Message = "test 2 for HW by clicking";
-            _notificationLog.AddNotification(hwNotifiction_2);
-            // AddNotification is not a stack notifications.
-            // How we can stack it ?
+            Log.d(TAG, MethodBase.GetCurrentMethod() + "");
 
         }
 
-        /* Client code can programmatically request WinTAK to focus on a GeoPoint(s) (pan and zoom to). 
-         * This and other actions can be achieved with the WinTak.Framework.Messaging.IMessageHub pub/sub interface.
-         * */
-        private void PanToWhiteHouse()
-        {
-            var message = new FocusMapMessage(new TAKEngine.Core.GeoPoint(38.8977, -77.0365)) { Behavior = WinTak.Common.Events.MapFocusBehavior.PanOnly };
-            _messageHub.Publish(message);
-        }
-
-        /* Smaller button is to Hide the Dockpane.
+        /* Layout Example - Smaller Button
+         * --------------------------------------------------------------------
+         * Desc. :
          * */
         private void OnDemandExecuted_SmallerButton(object sender, EventArgs e)
         {
-            _logger.Info("OnDemandExecuted_SmallerButton : " + "Hide the DockPane.");
-            this.Hide();
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            //this.Hide();
         }
 
+        /* Layout Example - Show Search Icon
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
         private void OnDemandExecuted_ShowSearchIcon(object sender, EventArgs e)
         {
-            _logger.Info("OnDemandExecuted_ShowSearchIcon : ");
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
 
         }
-        // Marker Manipulation - Special Marker
-        // -------------------   --------------
+
+        /* Layout Example - Recycler View
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_RecyclerViewBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Layout Example - Tab View
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_TabViewBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Layout Example - Overlay View
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_OverlayViewBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Layout Example - DropDown
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_DropDownBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Map Movement
+        // --------------------------------------------------------------------
+        /* Map Movement - Fly
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_FlyBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Marker Manipulation
+        // --------------------------------------------------------------------
+        /* Marker Manipulation - Special Marker
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
         private void OnDemandExecuted_SpecialMarkerButton(object sender, EventArgs e)
         {
-            Log.d(TAG, "OnDemandExecuted_SpecialMarkerButton" + e);
+            Log.d(TAG, MethodBase.GetCurrentMethod() + "");
             CotEvent cot = new CotEvent
             {
                 Uid = Guid.NewGuid().ToString(),
@@ -280,9 +350,481 @@ namespace Hello_World_Sample
             Log.d(TAG, "TESTING SOMETHING 2 : " + _devicePreferences.Callsign);
             Log.d(TAG, "device interface was tested to ensure that we can get something ?");
         }
-        // --------------------------
+        
+        /* Marker Manipulation - Add an Aircraft
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddAnAircraftBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Marker Manipulation - Marker with SVG Icon
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_SvgMarkerBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Marker Manipulation - Add a Layer
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddLayerBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Add Multi Layer
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddMultiLayerBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Add Heat Map
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddHeatMapBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Stale Out Marker
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddStaleOutMarkerBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Add Streams
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddStreamBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Remove Streams
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_RemoveStreamBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Coordiante Entry
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_CoordinateEntryBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Map Item (CoT) Inspect
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_ItemInspectBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Custome Type
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_CustomTypeBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Custom Menu Factory
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_CustomMenuFactoryBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - ISS Location
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_ISSLocationBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Marker Manipulation - Sensor Field of View
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_SensorFOVBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Route Examples
+        // --------------------------------------------------------------------
+        /* Route Examples - List Routes
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_ListRoutesBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Route Examples - Add Route
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddXRouteBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Route Examples - Reroute
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_ReXRouteBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Route Examples - Drop Route Example
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_dropRouteBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Emergency Examples
+        // --------------------------------------------------------------------
+        /* Emergency Examples - Emergency
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_EmergencyBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Emergency Examples - No Emergency
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_NoEmergencyBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Drawing Examples
+        // --------------------------------------------------------------------
+        /* Drawing Examples - Range/Bearing Circle
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_RbcircleBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Drawing Examples - Add Rectangle
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddRectangleBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Drawing Examples - Draw Shapes Examples
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_DrawShapesBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Drawing Examples - Add Shape to Custom Group
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_GroupAddBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+       
+        /* Drawing Examples - Associate Two MapItems on the Map
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AssociationsBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // GPS Examples
+        // --------------------------------------------------------------------
+        /* GPS Examples - Simulate External GPS
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_ExternalGpsBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Elevation Examples
+        // --------------------------------------------------------------------
+        /* Elevation Examples - Query Surface Data
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_SurfaceAtCenterBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Notification Examples
+        // --------------------------------------------------------------------
+        /* Notification Examples - Get Current Notifications
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_GetCurrentNotificationsBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            foreach (Notification notification in _notificationLog.Notifications)
+            {
+                Log.i(TAG, MethodBase.GetCurrentMethod() + "current notification : " + notification.ToString()); // provide only the high level of notification not sub category.
+            }
+            // Open another viewer with current notification
+        }
+        /* Notification Examples - Fake Content Provider
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_FakeContentProviderBtn(object sender, EventArgs e)
+        {
+            HelloWorldNotification hwNotifiction = new HelloWorldNotification();
+            hwNotifiction.Uid = "unique_1";
+            hwNotifiction.Message = "test a notification with HelloWorld";
+            _notificationLog.AddNotification(hwNotifiction);
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            // The Uid shall be Unique to ensure that you can stack it
+            // The Notification need to be a single notification. You need to create a new one if you want to use it again ?
+            // Or is it releated to Type ? Key ? something else ?
+            // Seems that is not the Uid how manage the possibility to have one or more Notification, but more the new ?
+            // HelloWorldNotification 
+            hwNotifiction = new HelloWorldNotification();
+            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
+            hwNotifiction.StartTime = DateTime.UtcNow;
+            hwNotifiction.Message = "1. test a notification with HelloWorld by clicking on a button";
+            _notificationLog.AddNotification(hwNotifiction);
+
+            hwNotifiction.Type = ULIDGenerator.GenerateULID(); // can be used to add a Notification information but we cannot see the first information if only type
+            hwNotifiction.Key = ULIDGenerator.GenerateULID();
+            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
+            hwNotifiction.StartTime = DateTime.UtcNow;
+            hwNotifiction.Message = "2. test a notification with HelloWorld by clicking on a button";
+            _notificationLog.AddNotification(hwNotifiction);
+
+            HelloWorldNotification hwNotifiction_2 = new HelloWorldNotification();
+            hwNotifiction_2.Uid = ULIDGenerator.GenerateULID();
+            hwNotifiction_2.StartTime = DateTime.UtcNow;
+            hwNotifiction_2.Message = "test 2 for HW by clicking";
+            _notificationLog.AddNotification(hwNotifiction_2);
+            // AddNotification is not a stack notifications.
+            // How we can stack it ?
+        }
+
+        /* Notification Examples - Notification with Plugin Icon
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_PluginNotificationBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        /* Notification Examples - Notification Spammer
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_NotificationSpammerBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        /* Notification Examples - Notification with Options
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_NotificationWithOptionsBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        /* Notification Examples - Play a Video with Overlay
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_VideoLauncherBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Notification Examples - Add Toolbar Item
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddToolbarItemBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        
+        /* Notification Examples - Add Count to Icon
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_AddCountToIconBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Images and Camera
+        // --------------------------------------------------------------------
+        /* Images and Camera - Launch a Camera
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_CameraLauncherBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        /* Images and Camera - Image Attach
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_ImageAttachBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        /* Images and Camera - Web View
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_WebViewBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        /* Images and Camera - Map Screenshot
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_MapScreenshotBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Speach To Text
+        // --------------------------------------------------------------------
+        /* Speach To Text - Speech To Text
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_SpeechToTextBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        /* Speach To Text - Speech To Activity
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_SpeechToActivityBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Sensors
+        // --------------------------------------------------------------------
+        /* Sensors - Acceleromter Control Test
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_BumpControlBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Navigation
+        // --------------------------------------------------------------------
+        /* Navigation - Hook into navigation events
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_HookNavigationEventsNameBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Lower Level Examples
+        // --------------------------------------------------------------------
+        /* Lower Level Examples - Get Image
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_GetImagesBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Map Layers
+        // --------------------------------------------------------------------
+        /* Map Layers - Download Map Layer
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_DownloadMapLayerBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        // --------------------------------------------------------------------
+        // Spinner Examples
+        // --------------------------------------------------------------------
+        /* Spinner Examples - 
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
+        private void OnDemandExecuted_Spinner1Btn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+
+        // --------------------------------------------------------------------
         // Plugin Template Duplicate
-        // --------------------------
+        // --------------------------------------------------------------------
+        /* Plugin Template Duplicate - Counter
+         * --------------------------------------------------------------------
+         * Desc. :
+         * */
         // This method is linked to the TextBlock where the counter value is displayed.
         public int Counter
         {
@@ -290,11 +832,17 @@ namespace Hello_World_Sample
             set { SetProperty(ref _counter, value); }
         }
         // This method is linked to the Button when an OnClick() is done.
-        private void OnDemandeExecuted_IncreaseCounterButton(object sender, EventArgs e)
+        private void OnDemandExecuted_IncreaseCounterBtn(object sender, EventArgs e)
         {
+            Log.d(TAG, MethodBase.GetCurrentMethod() + "");
             Counter++;
         }
-        // This is an example of how to interact with the MapComponent on some part.
+
+        /* Plugin Template Duplicate - (de)activate
+         * --------------------------------------------------------------------
+         * Desc. : This is an example of how to interact with 
+         *         the MapComponent on some part.
+         * */
         public bool MapFunctionIsActivate
         {
             get { return _mapFunctionIsActivate; } 
@@ -325,6 +873,19 @@ namespace Hello_World_Sample
         {
             MapFunctionLat = e.WorldLocation.Latitude;
             MapFunctionLon = e.WorldLocation.Longitude;
+        }
+
+        /* Plugin Template Duplicate - White House
+         * --------------------------------------------------------------------
+         * Desc. : Client code can programmatically request WinTAK to focus 
+         *         on a GeoPoint(s) (pan and zoom to). This and other actions 
+         *         can be achieved with the WinTak.Framework.Messaging.IMessageHub 
+         *         pub/sub interface.    
+         * */
+        private void PanToWhiteHouse()
+        {
+            var message = new FocusMapMessage(new TAKEngine.Core.GeoPoint(38.8977, -77.0365)) { Behavior = WinTak.Common.Events.MapFocusBehavior.PanOnly };
+            _messageHub.Publish(message);
         }
     }
 }

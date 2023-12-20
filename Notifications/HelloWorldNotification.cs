@@ -1,6 +1,10 @@
 ﻿using Hello_World_Sample.Common;
+
+using System;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
 using WinTak.Framework.Notifications;
 
 
@@ -20,7 +24,13 @@ namespace Hello_World_Sample.Notifications
         }
         public override ImageSource GetHeaderIcon()
         {
-            return null;
+            BitmapImage bitmapImage = new BitmapImage();
+            
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri("pack://application:,,,/Hello World Sample;component/assets/hw_notification_icon.png");
+            bitmapImage.EndInit();
+
+            return bitmapImage;
         }
     }
 }

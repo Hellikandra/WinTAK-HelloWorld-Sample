@@ -62,10 +62,11 @@ This sample include the same layout than the ATAK-HelloWorld plugin.
 - [ ] Query surface data
 
 ### Notification Examples
-- [ ] Fake Content Provider
-- [ ] Notification with Plugin Icon
-- [ ] Notification Spammer
+- [x] Get Current Notifications
+- [x] Fake Content Provider
+- [x] Notification Spammer
 - [ ] Notification With Options
+- [x] Notification to Windows
 - [ ] Play a Video with Overlay
 - [ ] Add Toolbar Item
 - [ ] Add Count to Icon
@@ -91,7 +92,6 @@ This sample include the same layout than the ATAK-HelloWorld plugin.
 
 ### Map Layers
 - [ ] Download Map Layer
-
 
 ### Spinner Examples
 - [ ] TBD

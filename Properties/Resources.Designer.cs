@@ -729,6 +729,24 @@ namespace Hello_World_Sample.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string btnNotificationToWindowsDescription {
+            get {
+                return ResourceManager.GetString("btnNotificationToWindowsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification to Windows.
+        /// </summary>
+        public static string btnNotificationToWindowsName {
+            get {
+                return ResourceManager.GetString("btnNotificationToWindowsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string btnNotificationWithOptionsDescription {
             get {
                 return ResourceManager.GetString("btnNotificationWithOptionsDescription", resourceCulture);
@@ -759,24 +777,6 @@ namespace Hello_World_Sample.Properties {
         public static string btnOverlayViewName {
             get {
                 return ResourceManager.GetString("btnOverlayViewName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string btnPluginNotificationDescription {
-            get {
-                return ResourceManager.GetString("btnPluginNotificationDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Notification with Plugin Icon.
-        /// </summary>
-        public static string btnPluginNotificationName {
-            get {
-                return ResourceManager.GetString("btnPluginNotificationName", resourceCulture);
             }
         }
         
@@ -1089,9 +1089,9 @@ namespace Hello_World_Sample.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ic_launcher_24x24 {
+        public static System.Drawing.Bitmap hw_notification_icon {
             get {
-                object obj = ResourceManager.GetObject("ic_launcher_24x24", resourceCulture);
+                object obj = ResourceManager.GetObject("hw_notification_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1099,10 +1099,20 @@ namespace Hello_World_Sample.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] ic_launcher1 {
+        public static byte[] ic_launcher {
             get {
-                object obj = ResourceManager.GetObject("ic_launcher1", resourceCulture);
+                object obj = ResourceManager.GetObject("ic_launcher", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ic_launcher_24x24 {
+            get {
+                object obj = ResourceManager.GetObject("ic_launcher_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

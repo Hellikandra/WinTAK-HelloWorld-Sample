@@ -90,9 +90,9 @@
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
                 <Button Content="{x:Static resx:Resources.btnGetCurrentNotificationsName}" Command="{Binding GetCurrentNotificationsBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnGetCurrentNotificationsDescription}" />
                 <Button Content="{x:Static resx:Resources.btnFakeContentProviderName}" Command="{Binding FakeContentProviderBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnFakeContentProviderDescription}" />
-                <Button Content="{x:Static resx:Resources.btnPluginNotificationName}" Command="{Binding PluginNotificationBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnPluginNotificationDescription}" />
                 <Button Content="{x:Static resx:Resources.btnNotificationSpammerName}" Command="{Binding NotificationSpammerBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationSpammerDescription}" />
                 <Button Content="{x:Static resx:Resources.btnNotificationWithOptionsName}" Command="{Binding NotificationWithOptionsBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationWithOptionsDescription}" />
+                <Button Content="{x:Static resx:Resources.btnNotificationToWindowsName}" Command="{Binding NotificationToWindowsBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationToWindowsDescription}" />
                 <Button Content="{x:Static resx:Resources.btnVideoLauncherName}" Command="{Binding VideoLauncherBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnVideoLauncherDescription}" />
                 <Button Content="{x:Static resx:Resources.btnAddToolbarItemName}" Command="{Binding AddToolbarItemBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddToolbarItemDescription}" />
                 <Button Content="{x:Static resx:Resources.btnAddCountToIconName}" Command="{Binding AddCountToIconBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddCountToIconDescription}" />
@@ -141,7 +141,7 @@
                     <Run Text=" ; Long : " />
                     <Run Text="{Binding MapFunctionLon}" />
                 </TextBlock>
-                <Button Content="White House" Command="{Binding WhiteHouseCoT}" Style="{StaticResource DarkButtonStyle}" ToolTip="" />
+                <Button Content="White House" Command="{Binding WhiteHouseCoTBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

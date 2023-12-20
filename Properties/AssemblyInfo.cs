@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Hello World Sample")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Hello World Sample for WinTAK")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("CIV-TAK Community")]
 [assembly: AssemblyProduct("Hello World Sample")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
@@ -54,3 +54,4 @@ using System.Windows;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: WinTak.Framework.TakSdkVersion("4.10.0.170")]
+[assembly: NeutralResourcesLanguage("en")]

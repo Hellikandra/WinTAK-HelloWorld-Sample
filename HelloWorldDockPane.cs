@@ -1,25 +1,33 @@
 ﻿using System;
+using System.ComponentModel.Composition;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-
-using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
-using MapEngine.Interop.Util;
+using Microsoft.Toolkit.Uwp.Notifications;
 
+using MapEngine.Interop.Util;
 using WinTak.Display;
-using WinTak.Common.Preferences;
 using WinTak.Common.CoT;
+using WinTak.Common.Messaging;
+using WinTak.Common.Preferences;
 using WinTak.Common.Services;
+using WinTak.CursorOnTarget.Services;
 using WinTak.Framework;
 using WinTak.Framework.Docking;
 using WinTak.Framework.Docking.Attributes;
 using WinTak.Framework.Messaging;
 using WinTak.Framework.Notifications;
-using WinTak.Common.Messaging;
+using WinTak.Location.Services;
 
 using Hello_World_Sample.Notifications;
 using Hello_World_Sample.Common;
+
+
 
 namespace Hello_World_Sample
 {
@@ -95,15 +103,14 @@ namespace Hello_World_Sample
         /* ***** Notification Examples ***** */
         public ICommand GetCurrentNotificationsBtn {  get; private set; }
         public ICommand FakeContentProviderBtn { get; private set; }
-        public ICommand PluginNotificationBtn { get; private set; }
         public ICommand NotificationSpammerBtn { get; private set; }
         public ICommand NotificationWithOptionsBtn { get; private set; }
+        public ICommand NotificationToWindowsBtn { get; private set; }
         public ICommand VideoLauncherBtn { get; private set; }
         public ICommand AddToolbarItemBtn { get; private set; }
         public ICommand AddCountToIconBtn { get; private set; }
 
         public INotificationLog _notificationLog;
-
 
         /* ***** Images and Camera */
         public ICommand CameraLauncherBtn { get; private set; }
@@ -127,6 +134,7 @@ namespace Hello_World_Sample
         
         /* ***** Plugin Template Duplicate (From WinTAK-Documentation) ***** */
         public ICommand IncreaseCounterBtn { get; private set; }
+        public ICommand WhiteHouseCoTBtn {  get; private set; }
         private int _counter;
         private double _mapFunctionLat;
         private double _mapFunctionLon;
@@ -136,10 +144,16 @@ namespace Hello_World_Sample
         // -- ----- ----- ----- ----- CONSTRUCTOR ----- ----- ----- ----- -- //
         [ImportingConstructor] // this import provide the capability to get WinTAK exposed Interfaces
         public HelloWorldDockPane(
-            IDockingManager dockingManager,
-            ILogger logger,
-            ILocationService service,
+            ICommunicationService communicationService,
+            ICotMessageReceiver cotMessageReceiver,
+            ICotMessageSender cotMessageSender,
             IDevicePreferences devicePreferences,
+            IDockingManager dockingManager,
+            IGeocoderService geocoderService,
+            ILogger logger,
+            ILocationService locationService,
+            /* IMapObjectFinderService mapObjectFinderService, */ 
+            IMapObjectRenderer mapObjectRenderer,
             IMessageHub messageHub,
             INotificationLog notificationLog)
         {
@@ -147,8 +161,9 @@ namespace Hello_World_Sample
             //_logger = logger;
             _messageHub = messageHub;
             DockingManager = dockingManager;
-            _locationService = service;
+            _locationService = locationService;
             _devicePreferences = devicePreferences;
+            _notificationLog = notificationLog;
   
             // Layout Example - Larger
             var largerCommand = new ExecutedCommand();
@@ -168,22 +183,17 @@ namespace Hello_World_Sample
 
 
             // Notification Examples
-            _notificationLog = notificationLog;
-
-            // Notification Examples - Get Current Notifications
-            var getCurrentNotificationsCommand = new ExecutedCommand();
-            getCurrentNotificationsCommand.Executed += OnDemandExecuted_GetCurrentNotificationsBtn;
-            GetCurrentNotificationsBtn = getCurrentNotificationsCommand;
-
-            // Notification Exampkes - Fake Content Provider
-            var fakeContentProviderCommand = new ExecutedCommand();
-            fakeContentProviderCommand.Executed += OnDemandExecuted_FakeContentProviderBtn;
-            FakeContentProviderBtn = fakeContentProviderCommand;
+            NotificationExamples_configuration();
 
             // Plugin Template Duplicate (From WinTAK-Documentation)
             var counterButtonCommand = new ExecutedCommand();
             counterButtonCommand.Executed += OnDemandExecuted_IncreaseCounterBtn;
             IncreaseCounterBtn = counterButtonCommand;
+
+            // Plugin Template Duplicate (From WinTAK Reference Documentation)
+            var whiteHouseCoTCommand = new ExecutedCommand();
+            whiteHouseCoTCommand.Executed += OnDemandExecuted_WhiteHouseCoTBtn;
+            WhiteHouseCoTBtn = whiteHouseCoTCommand;
         }
 
         // --------------------------------------------------------------------
@@ -206,7 +216,7 @@ namespace Hello_World_Sample
 
         }
         
-        private void GetMEFActiveInterface(object parameter)
+        private void GetMEFActiveInterface()
         {
             //Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies()
@@ -242,6 +252,37 @@ namespace Hello_World_Sample
                     Log.e(TAG, MethodBase.GetCurrentMethod() + ex.ToString());
                 }
             }
+        }
+
+        private string ImageToBase64(Image image, ImageFormat format)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Convert Image to byte[]
+                image.Save(ms, format);
+                byte[] imageBytes = ms.ToArray();
+
+                // Convert byte[] to base64 string
+                string base64String = Convert.ToBase64String(imageBytes);
+                
+                return $"data:image/png;base64,{base64String}";
+            }
+        }
+        private Bitmap ResizeImage(Bitmap image, int width, int height)
+        {
+            Bitmap resizedImage = new Bitmap(width, height);
+            using (Graphics graphics = Graphics.FromImage(resizedImage))
+            {
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+            return resizedImage;
+        }
+
+        private string SaveImageToFile(Bitmap image, string imgName)
+        {
+            string tempFilePath = Path.Combine(Path.GetTempPath(), imgName);
+            image.Save(tempFilePath, System.Drawing.Imaging.ImageFormat.Png);
+            return tempFilePath;
         }
         // --------------------------------------------------------------------
         // Layout Examples
@@ -606,82 +647,163 @@ namespace Hello_World_Sample
         // --------------------------------------------------------------------
         // Notification Examples
         // --------------------------------------------------------------------
+        private void NotificationExamples_configuration()
+        {
+            // Notification Examples - Get Current Notifications
+            var getCurrentNotificationsCommand = new ExecutedCommand();
+            getCurrentNotificationsCommand.Executed += OnDemandExecuted_GetCurrentNotificationsBtn;
+            GetCurrentNotificationsBtn = getCurrentNotificationsCommand;
+
+            // Notification Examples - Fake Content Provider
+            var fakeContentProviderCommand = new ExecutedCommand();
+            fakeContentProviderCommand.Executed += OnDemandExecuted_FakeContentProviderBtn;
+            FakeContentProviderBtn = fakeContentProviderCommand;
+
+            // Notification Examples - Notification Spammer
+            var notificationSpammerCommand = new ExecutedCommand();
+            notificationSpammerCommand.Executed += OnDemandExecuted_NotificationSpammerBtn;
+            NotificationSpammerBtn = notificationSpammerCommand;
+
+            // Notification Examples - Notification with Options
+            var notificationWithOptionsCommand = new ExecutedCommand();
+            notificationWithOptionsCommand.Executed += OnDemandExecuted_NotificationWithOptionsBtn;
+            NotificationWithOptionsBtn = notificationWithOptionsCommand;
+
+            // Notification Examples - Notification to Windows
+            var notificationToWindowsCommand = new ExecutedCommand();
+            notificationToWindowsCommand.Executed += OnDemandExecuted_NotificationToWindows;
+            NotificationToWindowsBtn = notificationToWindowsCommand;
+
+
+        }
         /* Notification Examples - Get Current Notifications
          * --------------------------------------------------------------------
-         * Desc. :
+         * Desc. : Get notifications from WinTak
          * */
         private void OnDemandExecuted_GetCurrentNotificationsBtn(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
-            foreach (Notification notification in _notificationLog.Notifications)
+            foreach (WinTak.Framework.Notifications.Notification notification in _notificationLog.Notifications)
             {
-                Log.i(TAG, MethodBase.GetCurrentMethod() + "current notification : " + notification.ToString()); // provide only the high level of notification not sub category.
+                Log.i(TAG, MethodBase.GetCurrentMethod() + "current notification : " + notification.ToString() + " - " + notification.Message);
+                // Open another viewer with current notification or display it in the UI.
+                WinTak.UI.Notifications.Notification.NotifyInfo("OnDemandExecuted_GetCurrentNotificationsBtn", notification.ToString() + " - " + notification.Message.ToString());
             }
-            // Open another viewer with current notification
+            
         }
         /* Notification Examples - Fake Content Provider
          * --------------------------------------------------------------------
-         * Desc. :
+         * Desc. : Display a simple notification in WinTak
          * */
         private void OnDemandExecuted_FakeContentProviderBtn(object sender, EventArgs e)
         {
-            HelloWorldNotification hwNotifiction = new HelloWorldNotification();
-            hwNotifiction.Uid = "unique_1";
-            hwNotifiction.Message = "test a notification with HelloWorld";
-            _notificationLog.AddNotification(hwNotifiction);
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
-            // The Uid shall be Unique to ensure that you can stack it
-            // The Notification need to be a single notification. You need to create a new one if you want to use it again ?
-            // Or is it releated to Type ? Key ? something else ?
-            // Seems that is not the Uid how manage the possibility to have one or more Notification, but more the new ?
-            // HelloWorldNotification 
-            hwNotifiction = new HelloWorldNotification();
-            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
-            hwNotifiction.StartTime = DateTime.UtcNow;
-            hwNotifiction.Message = "1. test a notification with HelloWorld by clicking on a button";
-            _notificationLog.AddNotification(hwNotifiction);
+            
+            HelloWorldNotification hwNotification = new HelloWorldNotification
+            {
+                Uid = ULIDGenerator.GenerateULID(),
+                Type = ULIDGenerator.GenerateULID(),
+                Key = ULIDGenerator.GenerateULID(),
+                StartTime = DateTime.UtcNow,
+                StaleTime = DateTime.UtcNow.AddMinutes(1),
+                Viewed = false,
 
-            hwNotifiction.Type = ULIDGenerator.GenerateULID(); // can be used to add a Notification information but we cannot see the first information if only type
-            hwNotifiction.Key = ULIDGenerator.GenerateULID();
-            hwNotifiction.Uid = ULIDGenerator.GenerateULID();
-            hwNotifiction.StartTime = DateTime.UtcNow;
-            hwNotifiction.Message = "2. test a notification with HelloWorld by clicking on a button";
-            _notificationLog.AddNotification(hwNotifiction);
+            };         
+            hwNotification.Message = "Display a WinTAK notification at " + hwNotification.StartTime.ToString();
+            _notificationLog.AddNotification(hwNotification);
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "Notification start : " + hwNotification.StartTime.ToString() + " / end : " + hwNotification.StaleTime.ToString());
 
-            HelloWorldNotification hwNotifiction_2 = new HelloWorldNotification();
-            hwNotifiction_2.Uid = ULIDGenerator.GenerateULID();
-            hwNotifiction_2.StartTime = DateTime.UtcNow;
-            hwNotifiction_2.Message = "test 2 for HW by clicking";
-            _notificationLog.AddNotification(hwNotifiction_2);
-            // AddNotification is not a stack notifications.
-            // How we can stack it ?
-        }
-
-        /* Notification Examples - Notification with Plugin Icon
-         * --------------------------------------------------------------------
-         * Desc. :
-         * */
-        private void OnDemandExecuted_PluginNotificationBtn(object sender, EventArgs e)
-        {
-            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
         }
 
         /* Notification Examples - Notification Spammer
          * --------------------------------------------------------------------
-         * Desc. :
+         * Desc. : Loop which send more notification to WinTak
          * */
-        private void OnDemandExecuted_NotificationSpammerBtn(object sender, EventArgs e)
+        private async void OnDemandExecuted_NotificationSpammerBtn(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            
+            for (int i = 0; i < 10; i++)
+            {
+                HelloWorldNotification hwNotification = new HelloWorldNotification
+                { 
+                    Uid = ULIDGenerator.GenerateULID(),
+                    Type = ULIDGenerator.GenerateULID(),
+                    Key = ULIDGenerator.GenerateULID(),
+                    StartTime = DateTime.UtcNow,
+                    StaleTime = DateTime.UtcNow.AddMinutes(1),
+                    Viewed = false,
+                    
+                };
+                hwNotification.Message = "Test Spammer " + (i + 1).ToString() + " - " + hwNotification.StartTime.ToString();
+                _notificationLog.AddNotification(hwNotification);
+
+                await Task.Delay(1000);
+            }
+
         }
+        
         /* Notification Examples - Notification with Options
          * --------------------------------------------------------------------
-         * Desc. :
+         * Desc. : Notification with a click which focus on map 
          * */
         private void OnDemandExecuted_NotificationWithOptionsBtn(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            HelloWorldNotification hwNotification = new HelloWorldNotification
+            {
+                Uid = ULIDGenerator.GenerateULID(),
+                Type = ULIDGenerator.GenerateULID(),
+                Key = ULIDGenerator.GenerateULID(),
+                StartTime = DateTime.UtcNow,
+                StaleTime = DateTime.UtcNow.AddMinutes(1),
+                Viewed = false,
+
+            };
+            hwNotification.Message = "Display a WinTAK notification at " + hwNotification.StartTime.ToString() + " with possibility to focus on the Notification";
+            _notificationLog.AddNotification(hwNotification);
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "Notification start : " + hwNotification.StartTime.ToString() + " / end : " + hwNotification.StaleTime.ToString());
+
         }
+
+        /* Notification Examples - Notification to Windows
+         * --------------------------------------------------------------------
+         * Desc. : Send a notification to Windows Toast (Sidebar notification)
+         * */
+        private void OnDemandExecuted_NotificationToWindows(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+
+            // Example 1 :
+            new ToastContentBuilder()
+                .AddArgument("action", "viewConversation")
+                .AddArgument("conversationId", 9813)
+                .AddText("Hello World sent you a picture")
+                .AddText("Check this out from WinTak Hello World Plugin")
+                .Show();
+
+            // Example 2 :
+            Bitmap hwIco = Properties.Resources.ic_launcher_24x24;
+            string hwIcoFilePath = SaveImageToFile(hwIco, "ic_launcher_24x24.png") ;
+            Uri hwIcoUri = new Uri(hwIcoFilePath);
+
+            Bitmap hwImg = Properties.Resources.hw_notification_icon;
+            string hwImgFilePath = SaveImageToFile(hwImg, "hw_notification_icon.png");
+            Uri hwImgUri = new Uri(hwImgFilePath);
+
+            new ToastContentBuilder()
+                .AddArgument("HelloWorldNotification")
+                .AddText("Hello World Plugin Notification with icon and Image")
+                .AddAppLogoOverride(hwIcoUri, ToastGenericAppLogoCrop.Circle)
+                .AddInlineImage(hwImgUri)
+                .AddButton(new ToastButton().SetContent("Acknowledge")
+                .AddArgument("HelloWorldNotificationAck"))
+                .Show(toast =>
+                {
+                    toast.Tag = "HelloWordNotification";
+                });
+        }
+
         /* Notification Examples - Play a Video with Overlay
          * --------------------------------------------------------------------
          * Desc. :
@@ -834,7 +956,7 @@ namespace Hello_World_Sample
         // This method is linked to the Button when an OnClick() is done.
         private void OnDemandExecuted_IncreaseCounterBtn(object sender, EventArgs e)
         {
-            Log.d(TAG, MethodBase.GetCurrentMethod() + "");
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
             Counter++;
         }
 
@@ -882,8 +1004,10 @@ namespace Hello_World_Sample
          *         can be achieved with the WinTak.Framework.Messaging.IMessageHub 
          *         pub/sub interface.    
          * */
-        private void PanToWhiteHouse()
+        private void OnDemandExecuted_WhiteHouseCoTBtn(object sender, EventArgs e)
         {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            
             var message = new FocusMapMessage(new TAKEngine.Core.GeoPoint(38.8977, -77.0365)) { Behavior = WinTak.Common.Events.MapFocusBehavior.PanOnly };
             _messageHub.Publish(message);
         }

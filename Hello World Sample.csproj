@@ -88,6 +88,7 @@
     <Compile Include="HelloWorldButton.cs" />
     <Compile Include="HelloWorldDockPane.cs" />
     <Compile Include="HelloWorldModule.cs" />
+    <Compile Include="Layout\HelloWorldViewControls.cs" />
     <Compile Include="Notifications\HelloWorldNotification.cs" />
     <Compile Include="HelloWorldView.xaml.cs">
       <DependentUpon>HelloWorldView.xaml</DependentUpon>

@@ -62,11 +62,11 @@ This sample include the same layout than the ATAK-HelloWorld plugin.
 - [ ] Query surface data
 
 ### Notification Examples
-- [x] Get Current Notifications
-- [x] Fake Content Provider
-- [x] Notification Spammer
+- :white_check_mark: Get Current Notifications
+- :white_check_mark: Fake Content Provider
+- :white_check_mark: Notification Spammer
 - [ ] Notification With Options
-- [x] Notification to Windows
+- :white_check_mark: Notification to Windows
 - [ ] Play a Video with Overlay
 - [ ] Add Toolbar Item
 - [ ] Add Count to Icon

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -26,23 +27,25 @@ using WinTak.Location.Services;
 
 using Hello_World_Sample.Notifications;
 using Hello_World_Sample.Common;
-
-
+using System.Windows;
+using Hello_World_Sample.Properties;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Hello_World_Sample
 {
-    [DockPane(ID, "HelloWorld", Content = typeof(HelloWorldView))]
+    [DockPane(ID, "HelloWorld", Content = typeof(HelloWorldView), DockLocation = DockLocation.Left, PreferredWidth = 300)]
     /* The DockPane class provides the ability to Hide/Show your dockable window 
      * and serves as the ViewModel for your view.
      * */
     internal class HelloWorldDockPane : DockPane
     {
 
-        internal const string ID  = "HelloWorld_HelloWorldDockPane";
+        internal const string ID = "HelloWorld_HelloWorldDockPane";
         internal const string TAG = "HelloWorldDockPane";
 
         /* Common */
-        public IDockingManager DockingManager { get; set; }
         // public ILogger _logger; // Or use the Log.x like ATAK
         private readonly IMessageHub _messageHub;
         public IDevicePreferences _devicePreferences;
@@ -52,17 +55,56 @@ namespace Hello_World_Sample
         public ICommand LargerBtn { get; private set; }
         public ICommand SmallerBtn { get; private set; }
         public ICommand ShowSearchIconBtn { get; private set; }
-        public ICommand RecyclerViewBtn {  get; private set; }
+        public ICommand RecyclerViewBtn { get; private set; }
         public ICommand TabViewBtn { get; private set; }
         public ICommand OverlayViewBtn { get; private set; }
         public ICommand DropdownBtn { get; private set; }
 
+        public IDockingManager _dockingManager;
+        public DockPaneAttribute DockPaneAttribute { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        public string callsignName;
+        public string inputTextMsg;
+        public string CallSignName
+        {
+            get
+            {
+                return this.callsignName;
+            }
+            //set => SetAndSubscribeProperty(ref testInputMesg, value);
+            //base.SetProperty(ref testInput)
+            set
+            {
+                if (base.SetProperty(ref callsignName, value, nameof(CallSignName)))
+                {
+                    Log.d(TAG, "Save/Update the value inside : " + callsignName + "'");
+                }
+            }
+        }
+        public string InputTextMsg
+        {
+            get
+            {
+                return this.inputTextMsg;
+            }
+            //set => SetAndSubscribeProperty(ref testInputMesg, value);
+            //base.SetProperty(ref testInput)
+            set
+            {
+                if (base.SetProperty(ref inputTextMsg, value, nameof(InputTextMsg)))
+                {
+                    Log.d(TAG, "Save/Update the value inside : " + inputTextMsg + "'");
+                }
+            }
+        }
+
         /* ***** Map Movement ***** */
-        public ICommand FlyBtn {  get; private set; }
+        public ICommand FlyBtn { get; private set; }
 
         /* ***** Marker Manipulation ***** */
         public ICommand SpecialMarkerBtn { get; private set; }
-        public ICommand AddAnAircraftBtn {  get; private set; }
+        public ICommand AddAnAircraftBtn { get; private set; }
         public ICommand SvgMarkerBtn { get; private set; }
         public ICommand AddLayerBtn { get; private set; }
         public ICommand AddMultiLayerBtn { get; private set; }
@@ -96,12 +138,12 @@ namespace Hello_World_Sample
 
         /* ***** GPS Examples ***** */
         public ICommand ExternalGpsBtn { get; private set; }
-       
+
         /* ***** Elevation Examples ***** */
         public ICommand SurfaceAtCenterBtn { get; private set; }
 
         /* ***** Notification Examples ***** */
-        public ICommand GetCurrentNotificationsBtn {  get; private set; }
+        public ICommand GetCurrentNotificationsBtn { get; private set; }
         public ICommand FakeContentProviderBtn { get; private set; }
         public ICommand NotificationSpammerBtn { get; private set; }
         public ICommand NotificationWithOptionsBtn { get; private set; }
@@ -131,15 +173,14 @@ namespace Hello_World_Sample
         public ICommand DownloadMapLayerBtn { get; private set; }
         /* ***** Spinner Examples ***** */
         public ICommand Spinner1Btn { get; private set; }
-        
+
         /* ***** Plugin Template Duplicate (From WinTAK-Documentation) ***** */
         public ICommand IncreaseCounterBtn { get; private set; }
-        public ICommand WhiteHouseCoTBtn {  get; private set; }
+        public ICommand WhiteHouseCoTBtn { get; private set; }
         private int _counter;
         private double _mapFunctionLat;
         private double _mapFunctionLon;
         private bool _mapFunctionIsActivate;
-
 
         // -- ----- ----- ----- ----- CONSTRUCTOR ----- ----- ----- ----- -- //
         [ImportingConstructor] // this import provide the capability to get WinTAK exposed Interfaces
@@ -152,28 +193,25 @@ namespace Hello_World_Sample
             IGeocoderService geocoderService,
             ILogger logger,
             ILocationService locationService,
-            /* IMapObjectFinderService mapObjectFinderService, */ 
+            /* IMapObjectFinderService mapObjectFinderService, */
             IMapObjectRenderer mapObjectRenderer,
             IMessageHub messageHub,
             INotificationLog notificationLog)
         {
 
+
             //_logger = logger;
             _messageHub = messageHub;
-            DockingManager = dockingManager;
+            _dockingManager = dockingManager;
             _locationService = locationService;
             _devicePreferences = devicePreferences;
             _notificationLog = notificationLog;
-  
-            // Layout Example - Larger
-            var largerCommand = new ExecutedCommand();
-            largerCommand.Executed += OnDemandExecuted_LargerButton;
-            LargerBtn = largerCommand;
 
-            // Layout Example - Smaller
-            var smallerCommand = new ExecutedCommand();
-            smallerCommand.Executed += OnDemandExecuted_SmallerButton;
-            SmallerBtn = smallerCommand;
+            this.CallSignName = _devicePreferences.Callsign;
+            this.InputTextMsg = "A default text message from constructor.";
+
+            // Layout Examples
+            LayoutExamples_Configuration();
 
 
             // Marker Manipulation - Special Marker
@@ -183,7 +221,7 @@ namespace Hello_World_Sample
 
 
             // Notification Examples
-            NotificationExamples_configuration();
+            NotificationExamples_Configuration();
 
             // Plugin Template Duplicate (From WinTAK-Documentation)
             var counterButtonCommand = new ExecutedCommand();
@@ -215,7 +253,7 @@ namespace Hello_World_Sample
             }
 
         }
-        
+
         private void GetMEFActiveInterface()
         {
             //Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -254,7 +292,7 @@ namespace Hello_World_Sample
             }
         }
 
-        private string ImageToBase64(Image image, ImageFormat format)
+        private string ImageToBase64(System.Drawing.Image image, ImageFormat format)
         {
             using (MemoryStream ms = new MemoryStream())
             {
@@ -264,10 +302,11 @@ namespace Hello_World_Sample
 
                 // Convert byte[] to base64 string
                 string base64String = Convert.ToBase64String(imageBytes);
-                
+
                 return $"data:image/png;base64,{base64String}";
             }
         }
+
         private Bitmap ResizeImage(Bitmap image, int width, int height)
         {
             Bitmap resizedImage = new Bitmap(width, height);
@@ -284,9 +323,50 @@ namespace Hello_World_Sample
             image.Save(tempFilePath, System.Drawing.Imaging.ImageFormat.Png);
             return tempFilePath;
         }
+        
+        private void SetAndSubscribeProperty<T>(ref T backingField, T newValue) where T : INotifyPropertyChanged
+        {
+            Log.d(TAG, MethodBase.GetCurrentMethod() + " - " + backingField + " - " + newValue);
+            if (!EqualityComparer<T>.Default.Equals(backingField, newValue))
+            {
+                backingField.PropertyChanged -= HandlePropertyChanged;
+            }
+            else
+            {
+                backingField.PropertyChanged += HandlePropertyChanged;
+            }
+            base.SetProperty(ref backingField, newValue);
+        }
+        
+        protected void OnPropertyChanged(string propertyname)
+        {
+            Log.d(TAG, MethodBase.GetCurrentMethod() + propertyname);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+        }
+        private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CallSignName))
+            {
+                OnPropertyChanged(e.PropertyName); // Notify property change
+            }
+        }
+        
         // --------------------------------------------------------------------
         // Layout Examples
         // --------------------------------------------------------------------
+
+        private void LayoutExamples_Configuration()
+        {
+            // Layout Example - Larger
+            var largerCommand = new ExecutedCommand();
+            largerCommand.Executed += OnDemandExecuted_LargerButton;
+            LargerBtn = largerCommand;
+
+            // Layout Example - Smaller
+            var smallerCommand = new ExecutedCommand();
+            smallerCommand.Executed += OnDemandExecuted_SmallerButton;
+            SmallerBtn = smallerCommand;
+        }
         /* Layout Example - Larger Button
          * --------------------------------------------------------------------
          * Desc. : Larger button is to Float the Dockpane. 
@@ -294,7 +374,6 @@ namespace Hello_World_Sample
         private void OnDemandExecuted_LargerButton(object sender, EventArgs e)
         {
             Log.d(TAG, MethodBase.GetCurrentMethod() + "");
-
         }
 
         /* Layout Example - Smaller Button
@@ -647,7 +726,7 @@ namespace Hello_World_Sample
         // --------------------------------------------------------------------
         // Notification Examples
         // --------------------------------------------------------------------
-        private void NotificationExamples_configuration()
+        private void NotificationExamples_Configuration()
         {
             // Notification Examples - Get Current Notifications
             var getCurrentNotificationsCommand = new ExecutedCommand();
@@ -742,11 +821,13 @@ namespace Hello_World_Sample
             }
 
         }
-        
+
         /* Notification Examples - Notification with Options
          * --------------------------------------------------------------------
          * Desc. : Notification with a click which focus on map 
+         * 
          * */
+        // TODO : Notification Examples - Notification with Options : how we can send the user to the localisation of the notification(like range&bearing)
         private void OnDemandExecuted_NotificationWithOptionsBtn(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
@@ -962,8 +1043,8 @@ namespace Hello_World_Sample
 
         /* Plugin Template Duplicate - (de)activate
          * --------------------------------------------------------------------
-         * Desc. : This is an example of how to interact with 
-         *         the MapComponent on some part.
+         * Desc. : This is an example of how to interact with the MapComponent
+         *         on some part.
          * */
         public bool MapFunctionIsActivate
         {
@@ -991,6 +1072,7 @@ namespace Hello_World_Sample
             get { return _mapFunctionLat; }
             set { SetProperty(ref _mapFunctionLat, value) ; }
         }
+
         private void MapViewControl_MapMouseMove(object sender, MapMouseEventArgs e)
         {
             MapFunctionLat = e.WorldLocation.Latitude;

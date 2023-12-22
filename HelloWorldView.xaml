@@ -18,6 +18,7 @@
     <Grid>
         <ScrollViewer>
             <StackPanel>
+                
                 <TextBlock Style="{StaticResource WinTakTextBlockTextDesign}" Text="This Hello World plugin is based on ATAK Hello World Plugin" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
 
@@ -34,7 +35,18 @@
                 <Button Content="{x:Static resx:Resources.btnTabViewName}" Command="{Binding TabViewBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnTabViewDescription}" />
                 <Button Content="{x:Static resx:Resources.btnOverlayViewName}" Command="{Binding OverlayViewBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnOverlayViewDescription}" />
                 <Button Content="{x:Static resx:Resources.btnDropDownName}" Command="{Binding DropdownBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnDropDownDescription}" />
-
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!-- in HelloWorldDockPane we have defined the width size at 300 -->
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column ="0" Text="Layout interaction : " />
+                    <TextBox Grid.Column ="1" Text="{Binding CallSignName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Grid.Column ="2" Text="{Binding InputTextMsg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+                
                 <TextBlock Style="{StaticResource WinTakTextBlockTextTitle}" Text="Map Movement" />
                 <Separator Style="{StaticResource WinTakSeparatorDesign}" />
 

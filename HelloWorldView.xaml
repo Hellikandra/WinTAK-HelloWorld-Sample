@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Hello_World_Sample"
              xmlns:resx="clr-namespace:Hello_World_Sample.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="3000" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -104,6 +104,7 @@
                 <Button Content="{x:Static resx:Resources.btnFakeContentProviderName}" Command="{Binding FakeContentProviderBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnFakeContentProviderDescription}" />
                 <Button Content="{x:Static resx:Resources.btnNotificationSpammerName}" Command="{Binding NotificationSpammerBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationSpammerDescription}" />
                 <Button Content="{x:Static resx:Resources.btnNotificationWithOptionsName}" Command="{Binding NotificationWithOptionsBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationWithOptionsDescription}" />
+                <Button Content="{x:Static resx:Resources.btnNotificationToWinTakToastName}" Command="{Binding NotificationToWinTakToastBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationToWinTakToastDescription}" />
                 <Button Content="{x:Static resx:Resources.btnNotificationToWindowsName}" Command="{Binding NotificationToWindowsBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnNotificationToWindowsDescription}" />
                 <Button Content="{x:Static resx:Resources.btnVideoLauncherName}" Command="{Binding VideoLauncherBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnVideoLauncherDescription}" />
                 <Button Content="{x:Static resx:Resources.btnAddToolbarItemName}" Command="{Binding AddToolbarItemBtn}" Style="{StaticResource DarkButtonStyle}" ToolTip="{x:Static resx:Resources.btnAddToolbarItemDescription}" />

@@ -747,6 +747,24 @@ namespace Hello_World_Sample.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string btnNotificationToWinTakToastDescription {
+            get {
+                return ResourceManager.GetString("btnNotificationToWinTakToastDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification to WinTak Toast.
+        /// </summary>
+        public static string btnNotificationToWinTakToastName {
+            get {
+                return ResourceManager.GetString("btnNotificationToWinTakToastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string btnNotificationWithOptionsDescription {
             get {
                 return ResourceManager.GetString("btnNotificationWithOptionsDescription", resourceCulture);

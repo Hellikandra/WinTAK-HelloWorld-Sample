@@ -32,6 +32,7 @@ using Hello_World_Sample.Properties;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using WinTak.UI;
 
 namespace Hello_World_Sample
 {
@@ -147,6 +148,7 @@ namespace Hello_World_Sample
         public ICommand FakeContentProviderBtn { get; private set; }
         public ICommand NotificationSpammerBtn { get; private set; }
         public ICommand NotificationWithOptionsBtn { get; private set; }
+        public ICommand NotificationToWinTakToastBtn { get; private set; }
         public ICommand NotificationToWindowsBtn { get; private set; }
         public ICommand VideoLauncherBtn { get; private set; }
         public ICommand AddToolbarItemBtn { get; private set; }
@@ -747,6 +749,11 @@ namespace Hello_World_Sample
             var notificationWithOptionsCommand = new ExecutedCommand();
             notificationWithOptionsCommand.Executed += OnDemandExecuted_NotificationWithOptionsBtn;
             NotificationWithOptionsBtn = notificationWithOptionsCommand;
+            
+            // Notification Examples - Notification to WinTak Toast
+            var notificationToWinTakToastCommand = new ExecutedCommand();
+            notificationToWinTakToastCommand.Executed += OnDemandExecuted_NotificationWinTakToastBtn;
+            NotificationToWinTakToastBtn = notificationToWinTakToastCommand;
 
             // Notification Examples - Notification to Windows
             var notificationToWindowsCommand = new ExecutedCommand();
@@ -846,7 +853,18 @@ namespace Hello_World_Sample
             Log.i(TAG, MethodBase.GetCurrentMethod() + "Notification start : " + hwNotification.StartTime.ToString() + " / end : " + hwNotification.StaleTime.ToString());
 
         }
-
+        
+        /* Notification Examples - Notification to WinTak Toast
+         * --------------------------------------------------------------------
+         * Desc. : Notification with a click which focus on map 
+         * 
+         * */
+        private void OnDemandExecuted_NotificationWinTakToastBtn(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            string test = "Hello World display a short popup Box on WinTAK.";
+            Toast.Show(test);
+        }
         /* Notification Examples - Notification to Windows
          * --------------------------------------------------------------------
          * Desc. : Send a notification to Windows Toast (Sidebar notification)

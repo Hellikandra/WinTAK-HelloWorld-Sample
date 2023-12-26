@@ -25,7 +25,7 @@
         </Setter>
     </Style>
     
-    <!-- TODO: Change the color regarding the Toggle Status ? -->
+    <!-- TODO : Change the color regarding the Toggle Status ? (shortcut Ctrl+K, Ctrl+H) -->
     <Style TargetType="ToggleButton" x:Key="WinTakToggleButtonDesign">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="Black" />

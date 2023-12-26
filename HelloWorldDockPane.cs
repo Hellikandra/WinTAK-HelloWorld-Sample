@@ -7,12 +7,12 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Controls;
 
 using Microsoft.Toolkit.Uwp.Notifications;
 
 using MapEngine.Interop.Util;
 using WinTak.Display;
+using WinTak.Common.Coords;
 using WinTak.Common.CoT;
 using WinTak.Common.Messaging;
 using WinTak.Common.Preferences;
@@ -27,12 +27,16 @@ using WinTak.Location.Services;
 
 using Hello_World_Sample.Notifications;
 using Hello_World_Sample.Common;
-using System.Windows;
-using Hello_World_Sample.Properties;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using WinTak.UI;
+using WinTak.CursorOnTarget;
+using WinTak.Common.Utils;
+using TAKEngine.Core;
+using WinTak.Mapping;
+using WinTak.Graphics.Map;
+using WinTak.Graphics;
+using WinTak.Overlays.ViewModels;
 
 namespace Hello_World_Sample
 {
@@ -62,9 +66,13 @@ namespace Hello_World_Sample
         public ICommand DropdownBtn { get; private set; }
 
         public IDockingManager _dockingManager;
+        public ICoTManager _coTManager;
+        public IElevationManager _elevationManager;
+        public IMapGroupManager _mapGroupManager;
         public DockPaneAttribute DockPaneAttribute { get; private set; }
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
+        private string cotGuidGenerate;
         public string callsignName;
         public string inputTextMsg;
         public string CallSignName
@@ -188,26 +196,32 @@ namespace Hello_World_Sample
         [ImportingConstructor] // this import provide the capability to get WinTAK exposed Interfaces
         public HelloWorldDockPane(
             ICommunicationService communicationService,
+            ICoTManager coTManager,
             ICotMessageReceiver cotMessageReceiver,
             ICotMessageSender cotMessageSender,
             IDevicePreferences devicePreferences,
             IDockingManager dockingManager,
+            IElevationManager elevationManager,
             IGeocoderService geocoderService,
             ILogger logger,
             ILocationService locationService,
             /* IMapObjectFinderService mapObjectFinderService, */
+            IMapGroupManager mapGroupManager,
             IMapObjectRenderer mapObjectRenderer,
             IMessageHub messageHub,
             INotificationLog notificationLog)
         {
 
-
+            /* Interface link */
             //_logger = logger;
             _messageHub = messageHub;
             _dockingManager = dockingManager;
             _locationService = locationService;
             _devicePreferences = devicePreferences;
             _notificationLog = notificationLog;
+            _coTManager = coTManager;
+            _elevationManager = elevationManager;
+            _mapGroupManager = mapGroupManager;
 
             this.CallSignName = _devicePreferences.Callsign;
             this.InputTextMsg = "A default text message from constructor.";
@@ -368,6 +382,11 @@ namespace Hello_World_Sample
             var smallerCommand = new ExecutedCommand();
             smallerCommand.Executed += OnDemandExecuted_SmallerButton;
             SmallerBtn = smallerCommand;
+
+            // Layout Example - Show Search Icon
+            var showSearchIconCommand = new ExecutedCommand();
+            showSearchIconCommand.Executed += OnDemandExecuted_ShowSearchIcon;
+            ShowSearchIconBtn = showSearchIconCommand;
         }
         /* Layout Example - Larger Button
          * --------------------------------------------------------------------
@@ -385,7 +404,6 @@ namespace Hello_World_Sample
         private void OnDemandExecuted_SmallerButton(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
-            //this.Hide();
         }
 
         /* Layout Example - Show Search Icon
@@ -394,10 +412,105 @@ namespace Hello_World_Sample
          * */
         private void OnDemandExecuted_ShowSearchIcon(object sender, EventArgs e)
         {
+            /* ATAK implementation : 
+             * // The button bellow shows how one might go about
+             * // setting up a custom map widget.
+             * final Button showSearchIcon = helloView.findViewById(R.id.showSearchIcon);
+             * showSearchIcon.setOnClickListener(new OnClickListener() {
+             *  @Override
+             *  public void onClick(View v) {
+             *      Log.d(TAG, "sending broadcast SHOW_MY_WACKY_SEARCH");
+             *      Intent intent = new Intent("SHOW_MY_WACKY_SEARCH");
+             *      AtakBroadcast.getInstance().sendBroadcast(intent);
+             *  }
+             * });
+             */
+
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            
+            Prompt.Show("Place the marker on the map.");
+            _mapGroupManager.ItemAdded += MapObjectAdded;
+            MapViewControl.PushMapEvents(MapMouseEvents.MapMouseDown
+                                        | MapMouseEvents.MapMouseMove
+                                        | MapMouseEvents.MapMouseUp
+                                        | MapMouseEvents.ItemDrag
+                                        | MapMouseEvents.ItemDragCompleted
+                                        | MapMouseEvents.ItemLongPress
+                                        | MapMouseEvents.MapDrag
+                                        | MapMouseEvents.MapLongPress
+                                        | MapMouseEvents.MapDoubleClick
+                                        | MapMouseEvents.ItemDoubleClick);
+            MapViewControl.MapClick += PlaceHelloWorld_MapClick;
+           
 
         }
+        private void PlaceHelloWorld_MapClick(object sender, MapMouseEventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            
+            /* Variables declaration */
+            string cotUid;
+            string cotType = "a-f-A";
+            string cotBaseName = "HWM"; // HelloWorldMarker
+            string callsign;
+            string cotDetail = "";
+            
+            /* Implementation */
+            cotUid = Guid.NewGuid().ToString();
+            cotBaseName = _coTManager.CreateCallsign(cotBaseName, CallsignCreationMethod.BasedOnTypeAndDate);
+            callsign = PreferenceUtils.GetSettingsValue("az", PreferenceUtils.GetCallsign());
+            
+            GeoPoint geoPoint;
+            geoPoint = new GeoPoint(e.WorldLocation)
+            {
+                Altitude = _elevationManager.GetElevation(e.WorldLocation),
+                AltitudeRef = global::TAKEngine.Core.AltitudeReference.HAE
+            };
+            
+            if (double.IsNaN(geoPoint.Altitude))
+            {
+                geoPoint.Altitude = Altitude.UNKNOWN_VALUE;
+            }
 
+            cotGuidGenerate = cotUid;
+            _coTManager.AddItem(cotUid, cotType, geoPoint, callsign, cotDetail);
+            
+            MapViewControl.PopMapEvents();
+            Prompt.Clear();
+        }
+        private void MapObjectAdded(object sender, MapItemEventArgs args)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            MapItem mapItem;
+            mapItem = args?.MapItem;
+            if (mapItem == null || cotGuidGenerate == null || cotGuidGenerate == mapItem.GetUid())
+            {
+                return;
+            }
+            base.DispatchAsync(delegate
+            {
+                if (_dockingManager.GetDockPane(ID) is HelloWorldDockPane helloWorldDockPane)
+                {
+                    MapMarker mapMarker;
+                    mapMarker = mapItem.GetMapMarker();
+                    if (mapMarker != null)
+                    {
+                        //helloWorldDockPane.SetMarker(mapMarker);
+                        mapItem.Properties.TryGetValue("helloworldMapItem", out var value);
+                        if (value != null)
+                        {
+                            ((MapObjectItem)value).Text = mapItem.Properties["akey?"].ToString();
+                        }
+                        cotGuidGenerate = null;
+                    }
+                }
+            });
+        }
+        public void SetMarker(MapMarker marker)
+        {
+            
+
+        }
         /* Layout Example - Recycler View
          * --------------------------------------------------------------------
          * Desc. :

@@ -16,6 +16,7 @@ This sample include the same layout than the ATAK-HelloWorld plugin.
 - [ ] Tab View
 - [ ] Overlay View
 - [ ] DropDown
+- :white_check_mark: Text interaction XAML <-> C#
 
 ### Map Movement
 - [ ] Fly
@@ -66,6 +67,7 @@ This sample include the same layout than the ATAK-HelloWorld plugin.
 - :white_check_mark: Fake Content Provider
 - :white_check_mark: Notification Spammer
 - [ ] Notification With Options
+- :white_check_mark: Notification popup box in WinTak
 - :white_check_mark: Notification to Windows
 - [ ] Play a Video with Overlay
 - [ ] Add Toolbar Item

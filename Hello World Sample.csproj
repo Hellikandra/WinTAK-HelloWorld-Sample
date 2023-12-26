@@ -138,17 +138,29 @@
     <PackageReference Include="Prism.Mef">
       <Version>6.3.1</Version>
     </PackageReference>
+    <PackageReference Include="Prism.Wpf">
+      <Version>6.3.1</Version>
+    </PackageReference>
     <PackageReference Include="System.Memory">
       <Version>4.5.2</Version>
     </PackageReference>
+    <PackageReference Include="TAK.Kernel">
+      <Version>4.24.9</Version>
+    </PackageReference>
+    <PackageReference Include="TTP-Dist">
+      <Version>2.12.4</Version>
+    </PackageReference>
+    <PackageReference Include="WinTak-Dependencies">
+      <Version>5.0.0.169</Version>
+    </PackageReference>
     <PackageReference Include="WinTak-ElevationTools">
-      <Version>4.10.0.170</Version>
+      <Version>5.0.0.169</Version>
     </PackageReference>
     <PackageReference Include="WinTak-Gv2FPlayer">
-      <Version>4.10.0.170</Version>
+      <Version>5.0.0.169</Version>
     </PackageReference>
     <PackageReference Include="WinTak-RangeBearing">
-      <Version>4.10.0.170</Version>
+      <Version>5.0.0.169</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

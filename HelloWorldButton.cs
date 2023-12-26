@@ -6,6 +6,8 @@ using WinTak.Framework.Tools.Attributes;
 namespace Hello_World_Sample
 {
     [Button("HelloWorld_HelloWorldButton", "HelloWorld Plugin",
+    Tab = "Samples",
+    TabGroup = "Hello World",
     LargeImage = "pack://application:,,,/Hello World Sample;component/assets/ic_launcher.svg",
     SmallImage = "pack://application:,,,/Hello World Sample;component/assets/ic_launcher_24x24.png")]
 

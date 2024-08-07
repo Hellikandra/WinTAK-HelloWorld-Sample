@@ -1,6 +1,14 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Windows;
+using System.Windows.Media;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
+using WinTak.Display;
+using WinTak.Display.Controls;
+using WinTak.Framework.Docking;
+using WinTak.Graphics;
+using WinTak.UI.Themes;
 
 namespace Hello_World_Sample
 {
@@ -9,10 +17,46 @@ namespace Hello_World_Sample
      * */
     internal class HelloWorldModule : IModule
     {
+        private IDockingManager _dockingManager;
+        private WheelMenuItem _detailsWheelItem;
+
+
         [ImportingConstructor]
-        public HelloWorldModule() { }
+        public HelloWorldModule(IDockingManager dockingManager) 
+        { 
+            _dockingManager = dockingManager;
+        }
         // Modules will be initialized during startup. Any work that needs to be done at startup can
         // be initiated from here.
-        public void Initialize() { }
+        public async void Initialize() { 
+            
+            MapViewControl.WheelMenuOpening += MapViewControl_OnWheelMenuOpening;
+            // Create a new WheelMenuItem
+            _detailsWheelItem = new WheelMenuItem("", Application.Current.Resources[Icons.DetailsRadialMenuIconKey] as ImageSource, OnDetailsWheelItemClick)
+            {
+                Id = WinTak.Common.Properties.Resources.Details,
+                ToolTip = "Details",
+            };
+
+        }
+
+        private void MapViewControl_OnWheelMenuOpening(object sender, MenuPopupEventArgs e)
+        {
+            // Add the WheelMenuItem to the WheelMenu
+            
+        }
+        private void OnDetailsWheelItemClick(object sender, EventArgs e)
+        {
+            // Do something when the WheelMenuItem is clicked
+            if(((WheelMenuItem)sender).Tag is MapItem mapItem && mapItem.Properties.ContainsKey("uid"))
+            {
+                Guid id = new Guid(mapItem.Properties["uid"].ToString());
+                ShowDockPane(id);
+            }
+        }
+        private async void ShowDockPane(Guid id)
+        {
+            //await ((HelloWorldDockPane)_dockingManager.GetDockPane("HelloWorld_HelloWorldDockPane")).ShowDockPaneAsync().;
+        }
     }
 }

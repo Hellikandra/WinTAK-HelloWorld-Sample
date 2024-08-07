@@ -1,0 +1,2 @@
+﻿
+Create a marker on the map which will provide the capability to handle the mouse over and display an image on this marker in the mapView.

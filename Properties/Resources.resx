@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="brand_cthulhu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\brand_cthulhu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="btnAddAnAircraftDescription" xml:space="preserve">
     <value>Create an aircraft marker</value>
   </data>
@@ -469,7 +473,7 @@
   <data name="hw_notification_icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB/HSuDAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAARNZJREFUeF7t3Xm4ZWdd5v2uzGQggRBmAQGZEQQBhwgiIKIiyhQUOoAgttiCok20
+        wAAADsABataJCQAARNZJREFUeF7t3Xm4ZWdd5v2uzGQggRBmAQGZEQQBhwgiIKIiyhQUOoAgttiCok20
         8e0Or1NehFeiII3iANI2BplEkUEUBZlkngdJAAMBwhBCgExV6XshYBJ+VbX3Ont41no+3+v6/HPbl23q
         1DnnWU+ds/d/uuSSSwAAAICZK0cAAABgXsoRAAAAmJdyBAAAAOalHAEAAIB5KUcAAABgXsoRAAAAmJdy
         BAAAAOalHAEAAIB5KUcAAABgXsoRAAAAmJdyBAAAAOalHAEAAIB5KUcAAABgXsoRAAAAmJdyBAAAAOal
@@ -766,14 +770,13 @@
         5BTNBwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ic_launcher" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\ic_launcher.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ic_launcher_24x24" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADwAAABECAYAAADdjVbeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAABOhJREFUeF7t2sGR4zYQheENYUNwCBvChuC7Lz775IMD8NFVvjiEDcEhOASH4BCc
+        DwAACw8BkvkDpQAABOhJREFUeF7t2sGR4zYQheENYUNwCBvChuC7Lz775IMD8NFVvjiEDcEhOASH4BCc
         wZjf1rQKw3kkIBGUd6bUVf9IbJAAXncDpFjz4enpKfFx4deFHxtfy3cLXxb+aHxvguhc+Hnhr4V/Fz4/
         +1q0EfvPgnPX7d8s0blAhAzKMnFt26cFgZDl+mzbv2mic4EIVuLaLMsslPs6GLdgDH0JLox1WhCj85nK
         8DrLytgk+bbWeI/aIwRTf/pyLJC+8/+9cGv/m0TnM23JMiJNlH2/oM1xunaPuvbPBX2mc0CsYBC+d95V

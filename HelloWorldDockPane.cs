@@ -37,6 +37,12 @@ using WinTak.Mapping;
 using WinTak.Graphics.Map;
 using WinTak.Graphics;
 using WinTak.Overlays.ViewModels;
+using atakmap.cpp_cli.core;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using WinTak.Overlays.Services;
+using Hello_World_Sample.Properties;
+
 
 namespace Hello_World_Sample
 {
@@ -69,6 +75,11 @@ namespace Hello_World_Sample
         public ICoTManager _coTManager;
         public IElevationManager _elevationManager;
         public IMapGroupManager _mapGroupManager;
+        public IMapObjectRenderer _mapObjectRenderer;
+        private readonly ImageSource _customMarkerHWImageSource;
+        private CompositeMapItem _customMarkerCompositeMapItem;
+        private MapObjectItem _customMarker;
+        private MapGroup _mapGroup;
         public DockPaneAttribute DockPaneAttribute { get; private set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -107,7 +118,8 @@ namespace Hello_World_Sample
                 }
             }
         }
-
+        /****** CoT Manager ***** */
+        ICotMessageReceiver _cotMessageReceiver;
         /* ***** Map Movement ***** */
         public ICommand FlyBtn { get; private set; }
 
@@ -207,10 +219,47 @@ namespace Hello_World_Sample
             ILocationService locationService,
             /* IMapObjectFinderService mapObjectFinderService, */
             IMapGroupManager mapGroupManager,
+            IMapObjectItemManager mapObjectItemManager,
             IMapObjectRenderer mapObjectRenderer,
             IMessageHub messageHub,
-            INotificationLog notificationLog)
+            INotificationLog notificationLog,
+            
+            // test the video
+            //IMediaElement mediaElement,
+            //IVideoOverlay videoOverlay,
+            //IVideoOverlayProvider videoOverlayProvider
+            Gv2FPlayer.IVideoPane videoPane,
+            Gv2FPlayer.IVideoControlsExtender videoControlsExtender,
+            Gv2FPlayer.IVideoControlsExtension videoControlsExtension
+            )
         {
+
+            // test video
+            //try { Log.d(TAG, "MediaElement : " + mediaElement); }
+            //catch (Exception ex) { Log.e(TAG, "MediaElement : " + ex.ToString()); }
+            //try { Log.d(TAG, "VideoOverlay : " + videoOverlay); }
+            //catch (Exception ex) { Log.e(TAG, "VideoOverlay : " + ex.ToString()); }
+            //try { Log.d(TAG, "VideoOverlayProvider : " + videoOverlayProvider); }
+            //catch (Exception ex) { Log.e(TAG, "VideoOverlayProvider : " + ex.ToString()); }
+
+            //WinTak.Video.IMediaElement mediaElement = null;
+            //WinTak.Video.IVideoOverlay videoOverlay = null;
+            //WinTak.Video.IVideoOverlayProvider videoOverlayProvider = null;
+            //WinTak.Video.MediaFrameEventArgs mediaFrameEventArgs = null;
+            //WinTak.Video.MetaDataEventArgs metaDataEventArgs = null;
+            Log.d(TAG, MethodBase.GetCurrentMethod() + " - " + videoPane.ToString());
+            Log.d(TAG, MethodBase.GetCurrentMethod() + " - " + videoControlsExtender.ToString());
+            Log.d(TAG, MethodBase.GetCurrentMethod() + " - " + videoControlsExtension.ToString());
+            Log.d(TAG, "We successfully read the videoPane");
+            WinTak.Video.IMediaElement mediaElement = videoPane.MediaElement;
+
+            Gv2FPlayer.Views.SelectVideoAliasView selectVideoAliasView;
+            Gv2FPlayer.ConnectionEntry connectionEntry = new Gv2FPlayer.ConnectionEntry();
+            connectionEntry.Alias = "test";
+            connectionEntry.Address = "http://";
+            connectionEntry.RtspReliable = true;
+            connectionEntry.Active = true;
+
 
             /* Interface link */
             //_logger = logger;
@@ -222,6 +271,23 @@ namespace Hello_World_Sample
             _coTManager = coTManager;
             _elevationManager = elevationManager;
             _mapGroupManager = mapGroupManager;
+            _mapObjectRenderer = mapObjectRenderer;
+
+            _customMarkerHWImageSource = new BitmapImage(new Uri("pack://application:,,,/Hello World Sample;component/assets/brand_cthulhu.png"));
+            _customMarkerCompositeMapItem = new CompositeMapItem();
+            ICollection<MapObjectItem> rootItems = mapObjectItemManager.RootItems;
+            if (rootItems != null)
+            {
+                _customMarker = new LegacyMapObjectItem(Resources.btnRecyclerViewName, new BitmapImage(new Uri("pack://application:,,,/Hello World Sample;component/assets/brand_cthulhu.png")))
+                {
+                    Visible = true,
+                    Selectable = false,
+                    Id = "HelloWorld CustomMarker"
+                };
+                rootItems.Add(_customMarker);
+            }
+            _mapGroup = mapGroupManager.GetOrCreateMapGroup("HelloWorldMapGroup");
+            _customMarkerCompositeMapItem.Disposing += CustomHWOnDisposing;
 
             this.CallSignName = _devicePreferences.Callsign;
             this.InputTextMsg = "A default text message from constructor.";
@@ -229,12 +295,16 @@ namespace Hello_World_Sample
             // Layout Examples
             LayoutExamples_Configuration();
 
-
             // Marker Manipulation - Special Marker
             var specialMarkerCommand = new ExecutedCommand();
             specialMarkerCommand.Executed += OnDemandExecuted_SpecialMarkerButton;
             SpecialMarkerBtn = specialMarkerCommand;
 
+            // Marker Manipulation - Add Streams
+            _cotMessageReceiver = cotMessageReceiver;
+            var addStreamCommand = new ExecutedCommand();
+            addStreamCommand.Executed += OnDemandExecuted_AddStreamBtn;
+            AddStreamBtn = addStreamCommand;
 
             // Notification Examples
             NotificationExamples_Configuration();
@@ -366,6 +436,7 @@ namespace Hello_World_Sample
                 OnPropertyChanged(e.PropertyName); // Notify property change
             }
         }
+
         
         // --------------------------------------------------------------------
         // Layout Examples
@@ -387,6 +458,11 @@ namespace Hello_World_Sample
             var showSearchIconCommand = new ExecutedCommand();
             showSearchIconCommand.Executed += OnDemandExecuted_ShowSearchIcon;
             ShowSearchIconBtn = showSearchIconCommand;
+
+            // Layer Example - Recycler View
+            var recyclerViewCommand = new ExecutedCommand();
+            recyclerViewCommand.Executed += OnDemandExecuted_RecyclerViewBtn;
+            RecyclerViewBtn = recyclerViewCommand;
         }
         /* Layout Example - Larger Button
          * --------------------------------------------------------------------
@@ -423,7 +499,7 @@ namespace Hello_World_Sample
              *      Intent intent = new Intent("SHOW_MY_WACKY_SEARCH");
              *      AtakBroadcast.getInstance().sendBroadcast(intent);
              *  }
-             * });
+             * }); // the image shown when we click on it is the sync_search.png -> AndroidTacticalAssaultKit-CIV-master\atak\ATAK\app\src\main\res\drawable-hdpi
              */
 
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
@@ -441,7 +517,6 @@ namespace Hello_World_Sample
                                         | MapMouseEvents.MapDoubleClick
                                         | MapMouseEvents.ItemDoubleClick);
             MapViewControl.MapClick += PlaceHelloWorld_MapClick;
-           
 
         }
         private void PlaceHelloWorld_MapClick(object sender, MapMouseEventArgs e)
@@ -451,17 +526,15 @@ namespace Hello_World_Sample
             /* Variables declaration */
             string cotUid;
             string cotType = "a-f-A";
-            string cotBaseName = "HWM"; // HelloWorldMarker
-            string callsign;
-            string cotDetail = "";
+            string cotName = "HWM"; // HelloWorldMarker
+            string cotDetail;
             
             /* Implementation */
             cotUid = Guid.NewGuid().ToString();
-            cotBaseName = _coTManager.CreateCallsign(cotBaseName, CallsignCreationMethod.BasedOnTypeAndDate);
-            callsign = PreferenceUtils.GetSettingsValue("az", PreferenceUtils.GetCallsign());
-            
-            GeoPoint geoPoint;
-            geoPoint = new GeoPoint(e.WorldLocation)
+            cotName = _coTManager.CreateCallsign(cotName, CallsignCreationMethod.BasedOnTypeAndDate);
+            cotDetail = "<archive /> <_helloworld_ title=\"" + cotName + "\" /><precisionlocation altsrc=\"DTED0\" />"; ;
+            TAKEngine.Core.GeoPoint geoPoint;
+            geoPoint = new TAKEngine.Core.GeoPoint(e.WorldLocation)
             {
                 Altitude = _elevationManager.GetElevation(e.WorldLocation),
                 AltitudeRef = global::TAKEngine.Core.AltitudeReference.HAE
@@ -473,7 +546,7 @@ namespace Hello_World_Sample
             }
 
             cotGuidGenerate = cotUid;
-            _coTManager.AddItem(cotUid, cotType, geoPoint, callsign, cotDetail);
+            _coTManager.AddItem(cotUid, cotType, geoPoint, cotName, cotDetail);
             
             MapViewControl.PopMapEvents();
             Prompt.Clear();
@@ -495,7 +568,7 @@ namespace Hello_World_Sample
                     mapMarker = mapItem.GetMapMarker();
                     if (mapMarker != null)
                     {
-                        //helloWorldDockPane.SetMarker(mapMarker);
+                        // helloWorldDockPane.SetMarker(mapMarker);
                         mapItem.Properties.TryGetValue("helloworldMapItem", out var value);
                         if (value != null)
                         {
@@ -506,11 +579,8 @@ namespace Hello_World_Sample
                 }
             });
         }
-        public void SetMarker(MapMarker marker)
-        {
-            
-
-        }
+        //public void SetMarker(MapMarker marker) { }
+        
         /* Layout Example - Recycler View
          * --------------------------------------------------------------------
          * Desc. :
@@ -518,8 +588,183 @@ namespace Hello_World_Sample
         private void OnDemandExecuted_RecyclerViewBtn(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+
+            Prompt.Show("Place a custom marker on the map.");
+            _mapGroupManager.ItemAdded += MapCustomObjectAdded;
+            MapViewControl.PushMapEvents(MapMouseEvents.MapMouseDown
+                                        | MapMouseEvents.MapMouseMove
+                                        | MapMouseEvents.MapMouseUp
+                                        | MapMouseEvents.ItemDrag
+                                        | MapMouseEvents.ItemDragCompleted
+                                        | MapMouseEvents.ItemLongPress
+                                        | MapMouseEvents.MapDrag
+                                        | MapMouseEvents.MapLongPress
+                                        | MapMouseEvents.MapDoubleClick
+                                        | MapMouseEvents.ItemDoubleClick);
+            MapViewControl.MapClick += PlaceCustomHelloWorld_MapClick;
+        }
+        private void PlaceCustomHelloWorld_MapClick(object sender, MapMouseEventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+
+            /* Variables declaration */
+            string cotUid;
+            string cotType = "c-f-u";
+            string cotName = "CHWM"; // HelloWorldMarker
+            string cotDetail;
+
+            /* Implementation */
+            cotUid = Guid.NewGuid().ToString();
+            cotName = _coTManager.CreateCallsign(cotName, CallsignCreationMethod.BasedOnTypeAndDate);
+            cotDetail = "<archive /> <_helloworld_ title=\"" + cotName + "\" /><precisionlocation altsrc=\"DTED0\" />";
+            TAKEngine.Core.GeoPoint geoPoint;
+            geoPoint = new TAKEngine.Core.GeoPoint(e.WorldLocation)
+            {
+                Altitude = _elevationManager.GetElevation(e.WorldLocation),
+                AltitudeRef = global::TAKEngine.Core.AltitudeReference.HAE
+            };
+
+            if (double.IsNaN(geoPoint.Altitude))
+            {
+                geoPoint.Altitude = Altitude.UNKNOWN_VALUE;
+            }
+
+            cotGuidGenerate = cotUid;
+            _coTManager.AddItem(cotUid, cotType, geoPoint, cotName, cotDetail);
+
+            MapItem value = null; 
+            value = CreateCustomMarkerRenderable(value, Guid.NewGuid(), "testCustom", geoPoint);
+            Log.i(TAG, "MapItem : " + value.ToString() + "Geopoint : " + geoPoint.ToString());
+            AddMapObjectItem(value, geoPoint);
+            
+            MapViewControl.PopMapEvents();
+            Prompt.Clear();
+        }
+        
+        private void MapCustomObjectAdded(object sender, MapItemEventArgs args)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+
+            MapItem mapItem;
+            mapItem = args?.MapItem;
+
+            if (mapItem == null || cotGuidGenerate == null || cotGuidGenerate == mapItem.GetUid())
+            {
+                return;
+            }
+            base.DispatchAsync(delegate
+            {
+                if (_dockingManager.GetDockPane(ID) is HelloWorldDockPane helloWorldDockPane)
+                {
+                    MapMarker mapMarker;
+                    mapMarker = mapItem.GetMapMarker();
+                    if (mapMarker != null)
+                    {
+                        // helloWorldDockPane.SetMarker(mapMarker);
+                        mapItem.Properties.TryGetValue("helloworldMapItem", out var value);
+                        if (value != null)
+                        {
+                            ((MapObjectItem)value).Text = mapItem.Properties["akey?"].ToString();
+                        }
+                        cotGuidGenerate = null;
+
+                    }
+
+                    //MapItem value = null;
+                    //value = CreateCustomMarkerRenderable();
+                    //TAKEngine.Core.GeoPoint geoPoint = new TAKEngine.Core.GeoPoint(MapMouseEventArgs.WorldLocation)
+                    //{
+                    //    Altitude = _elevationManager.GetElevation(MapMouseEventArgs.WorldLocation),
+                    //    AltitudeRef = global::TAKEngine.Core.AltitudeReference.HAE
+                    //};
+
+                    //AddMapObjectItem(value, geoPoint);
+                }
+            });
+        }
+        private void CustomHWOnDisposing(object sender, EventArgs e)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            _customMarkerCompositeMapItem.Disposing -= CustomHWOnDisposing;
+            _customMarkerCompositeMapItem = null;
         }
 
+        private void AddMapObjectItem(MapItem shape, TAKEngine.Core.GeoPoint center)
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            MapItem mapItem = shape;
+            Log.i(TAG, "shape : " + shape.ToString());// + "Parent : " + shape.Parent.ToString());
+            Log.i(TAG, "MapItem : " + mapItem.ToString() + "Geopoint : " + center.ToString());
+            if (mapItem.Properties.TryGetValue("overlay-manager-entry", out var value))
+            {
+                ((MapObjectItem)value).Position = center;
+                return;
+            }
+
+            LegacyMapObjectItem legacyMapObjectItem = new LegacyMapObjectItem(mapItem.GetCallsign(), null);
+            legacyMapObjectItem.MapItem = mapItem;
+            legacyMapObjectItem.Position = center;
+            legacyMapObjectItem.Selectable = false;
+            legacyMapObjectItem.Properties["exportable"] = false;
+            _customMarker.Children.Add(legacyMapObjectItem);
+            mapItem.Properties["overlay-manager-entry"] = legacyMapObjectItem;
+        }
+        private MapItem CreateCustomMarkerRenderable()
+        {
+            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+
+            MapMarker mapMarker = CreateMarker();
+            CompositeMapItem compositeMapItem = CreateMapObject(Guid.NewGuid().ToString(), "CustomHW_Test");
+            _mapGroup.AddItem(compositeMapItem);
+
+            return CreateMarker();
+
+         
+        }
+
+        private MapItem CreateCustomMarkerRenderable(MapItem shape, Guid id, string title, TAKEngine.Core.GeoPoint center)
+        {
+            MapMarker mapMarker;
+            if (shape == null)
+            {
+                mapMarker = CreateMarker();
+                CompositeMapItem compositeMapItem = CreateMapObject(id.ToString(), title);
+                compositeMapItem.AddItem("hwMarker", mapMarker);
+                _mapGroup.AddItem(compositeMapItem);
+            }
+            else
+            {
+                mapMarker = (MapMarker)shape;
+            }
+            mapMarker.Position = center;
+            return mapMarker;
+        }
+
+        private CompositeMapItem CreateMapObject(string id, string callsign = null)
+        {
+            CompositeMapItem compositeMapItem = new CompositeMapItem();
+            compositeMapItem.Properties["uid"] = id;
+            compositeMapItem.Properties["callsign"] = callsign ?? id;
+            compositeMapItem.Properties["type"] = "h-w-c-m";
+            compositeMapItem.Disposing += OnMapObjectDisposed;
+            return compositeMapItem;
+        }
+
+        private void OnMapObjectDisposed(object sender, EventArgs e)
+        {
+            MapItem mapItem = (MapItem)sender;
+            mapItem.Disposing -= OnMapObjectDisposed;
+            Guid id = new Guid(mapItem.Properties["uid"].ToString());
+        }
+        private static MapMarker CreateMarker()
+        {
+            return new MapMarker
+            {
+                Visible = true,
+                IconPath = new Uri("pack://application:,,,/Hello World Sample;component/assets/brand_cthulhu.png"),
+                Scaling = DisplayManager.UIScale
+            };
+        }
         /* Layout Example - Tab View
          * --------------------------------------------------------------------
          * Desc. :
@@ -531,11 +776,13 @@ namespace Hello_World_Sample
 
         /* Layout Example - Overlay View
          * --------------------------------------------------------------------
-         * Desc. :
+         * Desc. : with an event of mouse over of a marker an image is displayed.
          * */
         private void OnDemandExecuted_OverlayViewBtn(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            String overlayName = "HelloWorldOverlay";
+
         }
         
         /* Layout Example - DropDown
@@ -646,9 +893,17 @@ namespace Hello_World_Sample
          * */
         private void OnDemandExecuted_AddStreamBtn(object sender, EventArgs e)
         {
-            Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            Log.i(TAG, MethodBase.GetCurrentMethod() + " enable receiving CoT Message.");
+            _cotMessageReceiver.MessageReceived += OnCotMessageReceived;
+
         }
 
+        private void OnCotMessageReceived(object sender, CoTMessageArgument args)
+        {
+            Log.d(TAG, "OnCotMessageReceived : " + args.Message.ToString());
+            Log.d(TAG, args.CotEvent.ToString());
+            Log.d(TAG, args.Type.ToString());
+        }
         /* Marker Manipulation - Remove Streams
          * --------------------------------------------------------------------
          * Desc. :

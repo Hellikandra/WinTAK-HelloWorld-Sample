@@ -8,7 +8,7 @@
     <OutputType>library</OutputType>
     <RootNamespace>Hello_World_Sample</RootNamespace>
     <AssemblyName>Hello World Sample</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetPlatformVersion>10.0.22621</TargetPlatformVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,6 +16,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -145,23 +146,29 @@
       <Version>4.5.2</Version>
     </PackageReference>
     <PackageReference Include="TAK.Kernel">
-      <Version>4.24.9</Version>
+      <Version>5.9.11</Version>
     </PackageReference>
     <PackageReference Include="TTP-Dist">
-      <Version>2.12.4</Version>
+      <Version>3.0.3</Version>
     </PackageReference>
     <PackageReference Include="WinTak-Dependencies">
-      <Version>5.0.0.169</Version>
+      <Version>5.1.0.147</Version>
     </PackageReference>
     <PackageReference Include="WinTak-ElevationTools">
-      <Version>5.0.0.169</Version>
+      <Version>5.1.0.147</Version>
     </PackageReference>
     <PackageReference Include="WinTak-Gv2FPlayer">
-      <Version>5.0.0.169</Version>
+      <Version>5.1.0.147</Version>
     </PackageReference>
     <PackageReference Include="WinTak-RangeBearing">
-      <Version>5.0.0.169</Version>
+      <Version>5.1.0.147</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ToDo List.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\brand_cthulhu.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

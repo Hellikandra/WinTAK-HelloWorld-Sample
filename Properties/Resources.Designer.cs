@@ -61,6 +61,16 @@ namespace Hello_World_Sample.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap brand_cthulhu {
+            get {
+                object obj = ResourceManager.GetObject("brand_cthulhu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create an aircraft marker.
         /// </summary>
         public static string btnAddAnAircraftDescription {

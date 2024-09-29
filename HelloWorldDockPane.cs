@@ -42,7 +42,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WinTak.Overlays.Services;
 using Hello_World_Sample.Properties;
-
+using WinTak.Common.Geofence;
+using WinTak.Alerts;
+using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using WinTak.Alerts.Notifications;
+using Prism.Events;
 
 namespace Hello_World_Sample
 {
@@ -82,6 +87,11 @@ namespace Hello_World_Sample
         private MapGroup _mapGroup;
         public DockPaneAttribute DockPaneAttribute { get; private set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public IAlertProvider _alertProvider { get; private set; }
+        public IAlert _alert { get; private set; }
+        public IGeofenceManager _geofenceManager { get; private set; }
+        public IMapObjectItemManager _mapObjectItemManager { get; private set; }
 
         private string cotGuidGenerate;
         public string callsignName;
@@ -230,7 +240,9 @@ namespace Hello_World_Sample
             //IVideoOverlayProvider videoOverlayProvider
             Gv2FPlayer.IVideoPane videoPane,
             Gv2FPlayer.IVideoControlsExtender videoControlsExtender,
-            Gv2FPlayer.IVideoControlsExtension videoControlsExtension
+            Gv2FPlayer.IVideoControlsExtension videoControlsExtension,
+
+            IGeofenceManager geofenceManager
             )
         {
 
@@ -275,6 +287,8 @@ namespace Hello_World_Sample
 
             _customMarkerHWImageSource = new BitmapImage(new Uri("pack://application:,,,/Hello World Sample;component/assets/brand_cthulhu.png"));
             _customMarkerCompositeMapItem = new CompositeMapItem();
+            
+            _mapObjectItemManager = mapObjectItemManager;
             ICollection<MapObjectItem> rootItems = mapObjectItemManager.RootItems;
             if (rootItems != null)
             {
@@ -291,6 +305,54 @@ namespace Hello_World_Sample
 
             this.CallSignName = _devicePreferences.Callsign;
             this.InputTextMsg = "A default text message from constructor.";
+
+            foreach(MapObjectItem mapObjectItem in rootItems)
+            {
+                if (mapObjectItem.Text == "Geo Fences")
+                {
+                    Log.d(TAG, "MapObjectItem : " + mapObjectItem.ToString());
+                    Log.d(TAG, "Text : " + mapObjectItem.Text);
+                    Log.d(TAG, "We have the Geo Fences Overlay");
+                    int itemCount = mapObjectItem.GetSubItemCount(); // put 0 becasue does not point to the Geo Fences icons but to the sub items.
+                                                                     // We nee to list the items inside of it/
+                    Log.d(TAG, "Number of items : " + itemCount.ToString());
+                    Log.d(TAG, "Id : " + mapObjectItem.Id);
+                    int childCount = mapObjectItem.ChildCount;
+                    Log.d(TAG, "ChildCount : " + childCount.ToString());
+                    //MapItem mapItems = mapObjectItem.MapItem;
+                    //Log.d(TAG, "mapItems : " + mapItems.ToString());
+
+                    ObservableCollection<MapObjectItem> childMapObjectItems = mapObjectItem.Children;
+                    foreach (MapObjectItem moi in childMapObjectItems)
+                    {
+                        Log.d(TAG, "Text : " + moi.Text);
+                        Log.d(TAG, "Show Settings : " + moi.ShowSettings);
+                        Log.d(TAG, "Id : " + moi.Id);
+                        Log.d(TAG, "InViewChildCount : " + moi.InViewChildCount);
+                        Log.d(TAG, "Location : " + moi.Location);
+                        Log.d(TAG, "Properties : " + moi.Properties);
+                        Log.d(TAG, "Position : " + moi.Position);
+                        Log.d(TAG, "ShowDetailsCommand : " + moi.ShowDetailsCommand);
+                        Log.d(TAG, "SubText : " + moi.SubText);
+                        Log.d(TAG, "ToolTip : " + moi.ToolTip);
+                        Log.d(TAG, "MapItem : " + moi.MapItem);
+                        Log.d(TAG, "ChildCount : " + moi.ChildCount);
+                        Log.d(TAG, "Children : " + moi.Children);
+                        //Log.d(TAG, " : " + moi.PropertyChanged());
+                    }
+
+                }
+            }
+            foreach (var item in _mapGroupManager.MapItems)
+            {
+                Log.d(TAG, "MapGroup : " + item.ToString());
+                Log.d(TAG, "Text : " + item.Uid);
+                Log.d(TAG, "MapItems : " + item.MapItems);
+                Log.d(TAG, "ParentMapGroup : " + item.ParentMapGroup);
+                Log.d(TAG, "GetCallsign : " + item.GetCallsign());
+                Log.d(TAG, "GetUid : " + item.GetUid());
+                Log.d(TAG, "Name : " + item.Name);
+            }
 
             // Layout Examples
             LayoutExamples_Configuration();
@@ -318,8 +380,55 @@ namespace Hello_World_Sample
             var whiteHouseCoTCommand = new ExecutedCommand();
             whiteHouseCoTCommand.Executed += OnDemandExecuted_WhiteHouseCoTBtn;
             WhiteHouseCoTBtn = whiteHouseCoTCommand;
+
+
+            // Test Geofence - moved to a services
+            //_geofenceManager = geofenceManager;
+            //geofenceManager.GetGeofences();
+            //foreach(GeofenceData geofenceData in geofenceManager.GetGeofences())
+            //{
+            //    // Get the information of all geofence in the wintak instance.
+            //    Log.d(TAG, "MapItemUid : " + geofenceData.MapItemUid.ToString());
+            //    Log.d(TAG, "MonitorType : " + geofenceData.MonitoredType.ToString());
+            //    Log.d(TAG, "Trigger : " + geofenceData.Trigger.ToString());
+            //    MonitoredTypes monitored = geofenceData.MonitoredType;
+            //    Trigger trigger = geofenceData.Trigger;
+            //    //public enum MonitoredTypes
+            //    //{
+            //    //    TAKUsers,
+            //    //    Friendly,
+            //    //    Hostile,
+            //    //    Custom,
+            //    //    All
+            //    //}
+            //    //public enum Trigger
+            //    //{
+            //    //    Entry,
+            //    //    Exit,
+            //    //    Both
+            //    //}
+
+            //    //GeofenceAlertMessage geofenceAlertMessage = new GeofenceAlertMessage(geofenceData.MapItemUid, );
+            //}
+            //string geofenceBreached =  WinTak.Common.Properties.Resource_Civilian.GeofenceBreached;
+            
+            //geofenceManager.GeofenceChanged += GeofenceManager_GeofenceChanged;
+            //Log.d(TAG, "Geofence Breached test ?" + geofenceBreached); // seens that is only a string and not something that we can manage
+            //GeofenceAlertMessage geofenceAlertMessage = new GeofenceAlertMessage();
+
+            // How to monitor them when something entering into it ?
+            //IEnumerable<IAlert> alerts = _alertProvider.Alerts; // Currently alertProvier.Alerts return a null
+            //foreach (IAlert alert in alerts)
+            //{
+                //Log.d(TAG, "Alert : " + alert.ToString());
+            //}
         }
 
+        // This method is raised only when a geofence is modified. In any case, this method is raised when the geofence is breached.
+        private void GeofenceManager_GeofenceChanged(object sender, GeofenceData e)
+        {
+            Log.d(TAG, MethodBase.GetCurrentMethod() + " - " + e.ToString());
+        }
         // --------------------------------------------------------------------
         // Common Method
         // --------------------------------------------------------------------
@@ -1136,15 +1245,50 @@ namespace Hello_World_Sample
          * */
         private void OnDemandExecuted_GetCurrentNotificationsBtn(object sender, EventArgs e)
         {
+            WinTak.Alerts.Notifications.AlertNotification alertNotification;
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
             foreach (WinTak.Framework.Notifications.Notification notification in _notificationLog.Notifications)
             {
-                Log.i(TAG, MethodBase.GetCurrentMethod() + "current notification : " + notification.ToString() + " - " + notification.Message);
-                // Open another viewer with current notification or display it in the UI.
-                WinTak.UI.Notifications.Notification.NotifyInfo("OnDemandExecuted_GetCurrentNotificationsBtn", notification.ToString() + " - " + notification.Message.ToString());
+                Log.i(TAG, MethodBase.GetCurrentMethod() + " current notification : " + notification.ToString() + " - " + notification.Message);
+                // Open another viewer with current notification or display it in the UI. - moved to a service
+                //WinTak.UI.Notifications.Notification.NotifyInfo("OnDemandExecuted_GetCurrentNotificationsBtn", notification.ToString() + " - " + notification.Message.ToString());
+                //if (notification.GetType() == typeof(WinTak.Alerts.Notifications.AlertNotification))
+                //{
+                //    alertNotification = (WinTak.Alerts.Notifications.AlertNotification)notification;
+                //    Log.d(TAG, "alerNotification.Data : " + alertNotification.Data); // AkertNotificationData
+                //    Log.d(TAG, "alertNotification.Uid : " + alertNotification.Uid);
+                //    Log.d(TAG, "alertNotification.Type : " + alertNotification.Type); // WinTak.Alerts
+                //    Log.d(TAG, "alertNotification.Message : " + alertNotification.Message);
+                //    Log.d(TAG, "alertNotification.Key : " + alertNotification.Key); // WinTak.Alerts
+                //    Log.d(TAG, "alertNotification.StartTime : " + alertNotification.StartTime);
+                //    Log.d(TAG, "alertNotification.GetType() : " + alertNotification.GetType()); // WinTak.Alerts.Notifications.AlertNotification
+                    
+                //    NotificationData alertData = alertNotification.Data;
+                //    Log.d(TAG, "alertData.Action : " + alertData.Action);
+                //    Log.d(TAG, "alertData.MessageAction : " + alertData.MessageAction);
+                //    Log.d(TAG, "alertData.GetType() : " + alertData.GetType());
+
+                //    alertData.Action += OnDemand_AlertGeofenceAction;
+                //    if (alertData.Action != null)
+                //    {
+                //        IEventAggregator eventAggregator = new EventAggregator(); // Obtain an IEventAggregator instance
+                //        alertData.Action(eventAggregator); // Invoke the Action with eventAggregator
+                //    }
+                //}
             }
             
         }
+        private void OnDemand_AlertGeofenceAction(IEventAggregator eventAggregator)
+        {
+            Log.d(TAG, "Geofence action triggered with Event Aggregator");
+            var geofenceAlertEvent = eventAggregator.GetEvent<PubSubEvent<GeofenceAlertMessage>>();
+            Log.d(TAG, "geofenceAlertEvent : " + geofenceAlertEvent.ToString());
+            geofenceAlertEvent.Subscribe(message =>
+            {
+                Log.d(TAG, "eventAggregator" + message.FenceUid);
+            });
+        }
+
         /* Notification Examples - Fake Content Provider
          * --------------------------------------------------------------------
          * Desc. : Display a simple notification in WinTak

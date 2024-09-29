@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Media;
+using Hello_World_Sample.Services;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
 using WinTak.Display;
@@ -20,11 +21,12 @@ namespace Hello_World_Sample
         private IDockingManager _dockingManager;
         private WheelMenuItem _detailsWheelItem;
 
-
+        private readonly IHelloWorldServices _helloWorldServices;
         [ImportingConstructor]
-        public HelloWorldModule(IDockingManager dockingManager) 
+        public HelloWorldModule(IDockingManager dockingManager, IHelloWorldServices helloWorldServices) 
         { 
             _dockingManager = dockingManager;
+            _helloWorldServices = helloWorldServices;
         }
         // Modules will be initialized during startup. Any work that needs to be done at startup can
         // be initiated from here.

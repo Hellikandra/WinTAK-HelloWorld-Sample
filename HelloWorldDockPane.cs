@@ -50,6 +50,8 @@ using WinTak.Alerts.Notifications;
 using Prism.Events;
 using WinTak.Display.Controls;
 using WinTak.Mapping.Services;
+using WinTak.UI.Themes;
+using System.Windows;
 
 namespace Hello_World_Sample
 {
@@ -248,7 +250,9 @@ namespace Hello_World_Sample
             Gv2FPlayer.IVideoControlsExtender videoControlsExtender,
             Gv2FPlayer.IVideoControlsExtension videoControlsExtension,
 
-            IGeofenceManager geofenceManager
+            IGeofenceManager geofenceManager,
+
+            IPrecisionMoveService precisionMoveMarking
             )
         {
 
@@ -290,7 +294,7 @@ namespace Hello_World_Sample
             _elevationManager = elevationManager;
             _mapGroupManager = mapGroupManager;
             _mapObjectRenderer = mapObjectRenderer;
-
+            _precisionMoveService = precisionMoveMarking;
             _customMarkerHWImageSource = new BitmapImage(new Uri("pack://application:,,,/Hello World Sample;component/assets/brand_cthulhu.png"));
             _customMarkerCompositeMapItem = new CompositeMapItem();
             Log.d(TAG, "The customMarkerCompositeMapItem : " + this._customMarkerCompositeMapItem.GetUid());
@@ -361,7 +365,7 @@ namespace Hello_World_Sample
                 Log.d(TAG, "Name : " + item.Name);
             }
             _mapViewController = mapViewController;
-            //this._mapViewController.WheelMenuOpening += MapViewController_WheelMenuOpening;
+            this._mapViewController.WheelMenuOpening += MapViewController_WheelMenuOpening;
             // Layout Examples
             LayoutExamples_Configuration();
 
@@ -696,86 +700,166 @@ namespace Hello_World_Sample
                 }
             });
         }
-        //public void MapViewController_WheelMenuOpening(object sender, MenuPopupEventArgs e)
-        //{
-        //    Log.d(TAG, "MapViewController_WheelMenuOpening() - Starting");
+        public void MapViewController_WheelMenuOpening(object sender, MenuPopupEventArgs e)
+        {
+            Log.d(TAG, "MapViewController_WheelMenuOpening() - Starting");
 
-        //    // Log the type of 'sender'
-        //    Log.d(TAG, "Sender Type: " + (sender?.GetType().ToString() ?? "null"));
+            // Log the type of 'sender'
+            Log.d(TAG, "Sender Type: " + (sender?.GetType().ToString() ?? "null"));
 
-        //    // Check if sender is WheelMenu
-        //    if (sender is WheelMenu wheelMenu)
-        //    {
-        //        Log.d(TAG, "Sender is WheelMenu");
+            // Check if sender is WheelMenu
+            if (sender is WheelMenu wheelMenu)
+            {
+                Log.d(TAG, "Sender is WheelMenu");
+               
 
-        //        // Attempt to get the clickedParentObject
-        //        if (e.GetSingleClickedItem(out var clickedParentObject) != null)
-        //        {
-        //            Log.d(TAG, "Clicked parent object is: " + clickedParentObject?.GetType().ToString());
+                // Attempt to get the clickedParentObject
+                if (e.GetSingleClickedItem(out var clickedParentObject) != null)
+                {
+                    Log.d(TAG, "Clicked parent object is: " + clickedParentObject?.GetType().ToString());
 
-        //            // Check if clickedParentObject is MapItem
-        //            if (clickedParentObject is MapItem mapItem)
-        //            {
-        //                Log.d(TAG, "Clicked object is MapItem with UID: " + mapItem.GetUid() + "_customMarkerCompositeMapItem: " + this._customMarkerCompositeMapItem.GetUid());
+                    // Check if clickedParentObject is MapItem
+                    if (clickedParentObject is MapItem mapItem)
+                    {
+                        Log.d(TAG, "Clicked object is MapItem with Type : " + mapItem.GetType() + " _customMarkerCompositeMapItem : " + this._customMarkerCompositeMapItem.GetType());
+                        Log.d(TAG, "Clicked object is MapItem with Name: " + mapItem.Name + " _customMarkerCompositeMapItem: " + this._customMarkerCompositeMapItem.Name);
+                        Log.d(TAG, "Clicked object is MapItem with Text: " + mapItem.Properties + " _customMarkerCompositeMapItem: " + this._customMarkerCompositeMapItem.Properties);
+                        Log.d(TAG, "Clicked object is MapItem with UID: " + mapItem.GetUid() + " _customMarkerCompositeMapItem: " + this._customMarkerCompositeMapItem.GetUid());
 
-        //                // Check if the UIDs match
-        //                if (mapItem.GetUid().Equals(this._customMarkerCompositeMapItem.GetUid()))
-        //                {
-        //                    Log.d(TAG, "MapItem UIDs match. Passed the first if statement.");
+                        IDictionary<string, object> dictionaries = _customMarkerCompositeMapItem.Properties;
 
-        //                    // Proceed with the rest of the logic
-        //                    StandardActions.AddDelete(mapItem, wheelMenu, disabled: false);
-        //                    MapMarker mapMarker = mapItem.GetMapMarker();
+                        foreach(var dictionary in dictionaries)
+                        {
+                            Log.d(TAG, $"_customMarkerCompositeMapItem : Key: {dictionary.Key}, Value: {dictionary.Value}");
+                        }
 
-        //                    // Log if MapMarker is not null
-        //                    if (mapMarker != null)
-        //                    {
-        //                        Log.d(TAG, "MapMarker is not null");
-        //                        this._precisionMoveService.AddPrecisionMove(mapMarker, wheelMenu);
-        //                    }
-        //                    else
-        //                    {
-        //                        Log.d(TAG, "MapMarker is null");
-        //                    }
+                        IDictionary<string, object> dictionaries2 = mapItem.Properties;
+                        foreach (var dictionary in dictionaries2)
+                        {
+                            Log.d(TAG, $"mapItem : Key: {dictionary.Key}, Value: {dictionary.Value}");
+                        }
+                        //if (dictionary != null)
+                        //{
+                        //    // Iterate through all key-value pairs
+                        //    foreach (var keyValuePair in dictionary)
+                        //    {
+                        //        Log.d(TAG, $"Key: {keyValuePair.Key}, Value: {keyValuePair.Value}");
+                        //    }
 
-        //                    // Remove the delete menu item
-        //                    wheelMenu.Items.Remove(wheelMenu.Items.FirstOrDefault((WheelMenuItem x) => x.Id == "delete"));
-        //                }
-        //                else
-        //                {
-        //                    Log.d(TAG, "MapItem UIDs do not match");
-        //                }
-        //            }
-        //            else
-        //            {
-        //                Log.d(TAG, "Clicked parent object is not MapItem");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Log.d(TAG, "GetSingleClickedItem returned null or no clicked parent object");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Log.d(TAG, "Sender is not WheelMenu");
-        //    }
+                        //    // To access a specific key's value, for example
 
-        //    Log.d(TAG, "MapViewController_WheelMenuOpening() - End");
-        //    //if (sender is WheelMenu wheelMenu && e.GetSingleClickedItem(out var clickedParentObject) != null && clickedParentObject is MapItem mapItem && mapItem.GetUid().Equals(this._customMarkerCompositeMapItem.GetUid()))
-        //    //{
-        //    //    StandardActions.AddDelete(mapItem, wheelMenu, disabled: false);
-        //    //    MapMarker mapMarker = mapItem.GetMapMarker();
-        //    //    Log.d(TAG, "MapViewController_WheelMenuOpening() - First If passed");
-        //    //    if (mapMarker != null)
-        //    //    {
-        //    //        this._precisionMoveService.AddPrecisionMove(mapMarker, wheelMenu);
-        //    //        Log.d(TAG, "MapViewController_WheelMenuOpening() - Second If passed");
-        //    //    }
-        //    //    wheelMenu.Items.Remove(wheelMenu.Items.FirstOrDefault((WheelMenuItem x) => x.Id == "delete"));
-        //    //}
-        //    //Log.d(TAG, "MapViewController_WheelMenuOpening() - End");
-        //}
+                        //}
+
+                        // Check if the UIDs match
+                        if (mapItem.GetUid().Equals(this._customMarkerCompositeMapItem.GetUid()))
+                        {
+                            Log.d(TAG, "MapItem UIDs match. Passed the first if statement.");
+
+                            // Proceed with the rest of the logic
+                            StandardActions.AddDelete(mapItem, wheelMenu, disabled: false);
+                            MapMarker mapMarker = mapItem.GetMapMarker();
+
+                            // Log if MapMarker is not null
+                            if (mapMarker != null)
+                            {
+                                Log.d(TAG, "MapMarker is not null");
+                                this._precisionMoveService.AddPrecisionMove(mapMarker, wheelMenu);
+                            }
+                            else
+                            {
+                                Log.d(TAG, "MapMarker is null");
+                            }
+
+                            // Remove the delete menu item
+                            wheelMenu.Items.Remove(wheelMenu.Items.FirstOrDefault((WheelMenuItem x) => x.Id == "delete"));
+                        }
+                        else if (dictionaries2.TryGetValue("type", out var value))
+                        {
+                            if (value is string stringValue)
+                            {
+                                if (stringValue == "a-f-A")
+                                {
+                                    Log.d(TAG, "MapItem Type. Passed the else if statement.");
+
+                                    // Proceed with the rest of the logic
+                                    //StandardActions.AddDelete(mapItem, wheelMenu, disabled: false); // Create an empty space ? which shown on the figure previously
+                                    MapMarker mapMarker = mapItem.GetMapMarker();
+
+                                    WheelMenuItem _detailsWheelItem = new WheelMenuItem("brand_cthulhu", Application.Current.Resources[Icons.BreadcrumbActiveRadialMenuIconKey] as ImageSource, OnDetailsWheelItemClick)
+                                    {
+                                        Id = WinTak.Common.Properties.Resources.AddGeofence,
+                                        ToolTip = "Test Sub Items Menu",
+                                    };
+
+                                    // Log if MapMarker is not null
+                                    if (mapMarker != null)
+                                    {
+                                        Log.d(TAG, "MapMarker is not null");
+                                        //this._precisionMoveService.AddPrecisionMove(mapMarker, wheelMenu); // Create an empty space ? which shown on the figure previously
+                                    }
+                                    else
+                                    {
+                                        Log.d(TAG, "MapMarker is null");
+                                    }
+
+                                    // Remove the delete menu item
+                                    //wheelMenu.Items.Remove(wheelMenu.Items.FirstOrDefault((WheelMenuItem x) => x.Id == "delete"));
+                                    wheelMenu.Items.Add(_detailsWheelItem);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Log.d(TAG, "MapItem UIDs do not match");
+                        }
+                    }
+                    else
+                    {
+                        Log.d(TAG, "Clicked parent object is not MapItem");
+                    }
+                }
+                else
+                {
+                    Log.d(TAG, "GetSingleClickedItem returned null or no clicked parent object");
+                }
+            }
+            else
+            {
+                Log.d(TAG, "Sender is not WheelMenu");
+            }
+
+            Log.d(TAG, "MapViewController_WheelMenuOpening() - End");
+            //if (sender is WheelMenu wheelMenu && e.GetSingleClickedItem(out var clickedParentObject) != null && clickedParentObject is MapItem mapItem && mapItem.GetUid().Equals(this._customMarkerCompositeMapItem.GetUid()))
+            //{
+            //    StandardActions.AddDelete(mapItem, wheelMenu, disabled: false);
+            //    MapMarker mapMarker = mapItem.GetMapMarker();
+            //    Log.d(TAG, "MapViewController_WheelMenuOpening() - First If passed");
+            //    if (mapMarker != null)
+            //    {
+            //        this._precisionMoveService.AddPrecisionMove(mapMarker, wheelMenu);
+            //        Log.d(TAG, "MapViewController_WheelMenuOpening() - Second If passed");
+            //    }
+            //    wheelMenu.Items.Remove(wheelMenu.Items.FirstOrDefault((WheelMenuItem x) => x.Id == "delete"));
+            //}
+            //Log.d(TAG, "MapViewController_WheelMenuOpening() - End");
+        }
+
+        private void OnDetailsWheelItemClick(object sender, EventArgs e)
+        {
+            MapEngine.Interop.Util.Log.d(TAG, "OnDetailsWheelItemClick() start");
+
+            Log.d(TAG, "Sender Type: " + (sender?.GetType().ToString() ?? "null"));
+
+            // Do something when the WheelMenuItem is clicked
+            object tag = ((WheelMenuItemBase)(WheelMenuItem)sender).Tag;
+            MapItem val = (MapItem)((tag is MapItem) ? tag : null);
+            if (((WheelMenuItem)sender).Tag is MapItem mapItem && mapItem.Properties.ContainsKey("uid"))
+            {
+                Guid id = new Guid(mapItem.Properties["uid"].ToString());
+                //ShowDockPane(id);
+            }
+        }
+
         //public void SetMarker(MapMarker marker) { }
 
         /* Layout Example - Recycler View

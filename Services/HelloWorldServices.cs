@@ -1,5 +1,6 @@
 ﻿using Hello_World_Sample.Geofences;
 using MapEngine.Interop.Util;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WinTak.Alerts.Notifications;
 using WinTak.Common.Geofence;
 using WinTak.Framework.Notifications;
@@ -158,6 +160,9 @@ namespace Hello_World_Sample.Services
                                 }
                                 Log.d(TAG, "Children SubText  : " + moiChildren.SubText);
                                 Log.d(TAG, "Children " + moiChildren.ShowDetailsCommand);
+                                ICommand delegateCommand = moiChildren.ShowDetailsCommand;
+                                // try to do with the delegateCommand.
+
 
                             }
                         }

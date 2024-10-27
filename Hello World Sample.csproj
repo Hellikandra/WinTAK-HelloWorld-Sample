@@ -78,6 +78,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Geofences\GeofencesMonitoring.cs" />
+    <Compile Include="HelloWorldLocationProvider.cs" />
+    <Compile Include="IHelloWorldLocationPreferences.cs" />
     <Compile Include="Services\HelloWorldServices.cs" />
     <Compile Include="Services\IHelloWorldServices.cs" />
     <Page Include="CustomWidgets.xaml">

@@ -52,6 +52,16 @@ using WinTak.Display.Controls;
 using WinTak.Mapping.Services;
 using WinTak.UI.Themes;
 using System.Windows;
+using WinTak.CursorOnTarget.Placement.DockPanes;
+using Windows.ApplicationModel.Contacts;
+using WinTak.Net.Contacts;
+using WinTak.MissionPackages;
+using WinTak.Common.Time;
+using WinTak.Common.Location;
+using WinTak.Common.Editors;
+using WinTak.Location.Views;
+using WinTak.Location.Providers;
+using System.Threading;
 
 namespace Hello_World_Sample
 {
@@ -64,10 +74,19 @@ namespace Hello_World_Sample
 
         internal const string ID = "HelloWorld_HelloWorldDockPane";
         internal const string TAG = "HelloWorldDockPane";
+        private readonly ICotMessageSender _cotMessageSender;
+        private readonly IContactService _contactList;
+        private readonly IImageStore _imageStore;
+        private IMissionPackageService _missionPackageService;
 
         /* Common */
         // public ILogger _logger; // Or use the Log.x like ATAK
         private readonly IMessageHub _messageHub;
+        private IUnitDisplayPreferences _unitDisplayPreferences;
+        private IStatusIndicator _statusIndicator;
+        private ILocationPreferences _locationPreferences;
+        private IHelloWorldLocationPreferences _helloWorldLocationPreferences;
+        private ILocationProvider _locationProvider;
         public IDevicePreferences _devicePreferences;
         public ILocationService _locationService;
 
@@ -252,7 +271,15 @@ namespace Hello_World_Sample
 
             IGeofenceManager geofenceManager,
 
-            IPrecisionMoveService precisionMoveMarking
+            IPrecisionMoveService precisionMoveMarking,
+
+            IContactService contactService,
+            IImageStore imageStore,
+            IMissionPackageService missionPackageService,
+            IUnitDisplayPreferences unitDisplayPreferences,
+            IStatusIndicator statusIndicator,
+            ILocationPreferences locationPreferences
+            //IHelloWorldLocationPreferences helloWorldLocationPreferences
             )
         {
 
@@ -282,12 +309,38 @@ namespace Hello_World_Sample
             connectionEntry.RtspReliable = true;
             connectionEntry.Active = true;
 
-
+            // Test
+            _cotMessageSender = cotMessageSender;
+            _contactList = contactService;
+            _imageStore = imageStore;
+            _missionPackageService = missionPackageService;
+            _communicationService = communicationService;
             /* Interface link */
             //_logger = logger;
             _messageHub = messageHub;
             _dockingManager = dockingManager;
             _locationService = locationService;
+            _locationService.PositionChanged += OnPositionChanged;
+
+            Log.i(TAG, "_locationService.GetGpsHeading()       : " + _locationService.GetGpsHeading());
+            Log.i(TAG, "_locationService.GetGpsMarker()        : " + _locationService.GetGpsMarker());
+            Log.i(TAG, "_locationService.GetGpsObject()        : " + _locationService.GetGpsObject());
+            Log.i(TAG, "_locationService.GetGpsPosition()      : " + _locationService.GetGpsPosition());
+            Log.i(TAG, "_locationService.GetGpsSpeed()         : " + _locationService.GetGpsSpeed());
+            Log.i(TAG, "_locationService.GetHashCode()         : " + _locationService.GetHashCode());
+            Log.i(TAG, "_locationService.GetPositionDocument() : " + _locationService.GetPositionDocument());
+            Log.i(TAG, "_locationService.GetSelfCotEvent()     : " + _locationService.GetSelfCotEvent());
+            Log.i(TAG, "_locationService.GetType()             : " + _locationService.GetType());
+            //Log.i(TAG, "_locationService.ConnectionStatus      : " + _locationService.ConnectionStatus);
+            //Log.i(TAG, "_locationService.HasConnections        : " + _locationService.HasConnections);
+            //Log.i(TAG, "_locationService.IsSimulatedGps        : " + _locationService.IsSimulatedGps);
+
+            _unitDisplayPreferences = unitDisplayPreferences;
+            _statusIndicator = statusIndicator;
+            _locationPreferences = locationPreferences;
+            //_locationProvider = locationProvider;
+            //_helloWorldLocationPreferences = helloWorldLocationPreferences;
+
             _devicePreferences = devicePreferences;
             _notificationLog = notificationLog;
             _coTManager = coTManager;
@@ -316,7 +369,7 @@ namespace Hello_World_Sample
 
             this.CallSignName = _devicePreferences.Callsign;
             this.InputTextMsg = "A default text message from constructor.";
-
+            Log.d(TAG, "" + locationService.GetGpsPosition()); 
             foreach(MapObjectItem mapObjectItem in rootItems)
             {
                 if (mapObjectItem.Text == "Geo Fences")
@@ -435,6 +488,11 @@ namespace Hello_World_Sample
                 //Log.d(TAG, "Alert : " + alert.ToString());
             //}
         }
+
+        //private void OnPositionChanged(object sender, WinTak.Common.Location.PositionChangedEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // This method is raised only when a geofence is modified. In any case, this method is raised when the geofence is breached.
         private void GeofenceManager_GeofenceChanged(object sender, GeofenceData e)
@@ -592,15 +650,183 @@ namespace Hello_World_Sample
         private void OnDemandExecuted_LargerButton(object sender, EventArgs e)
         {
             Log.d(TAG, MethodBase.GetCurrentMethod() + "");
+            Log.d(TAG, MethodBase.GetCurrentMethod() +" : " +_locationService.GetGpsPosition());
+            Log.d(TAG, MethodBase.GetCurrentMethod() + " : " + _locationService);
         }
 
         /* Layout Example - Smaller Button
          * --------------------------------------------------------------------
          * Desc. :
          * */
+        CotDockPane dockPane;
+        private ICommunicationService _communicationService;
+
         private void OnDemandExecuted_SmallerButton(object sender, EventArgs e)
         {
             Log.i(TAG, MethodBase.GetCurrentMethod() + "");
+            TAKEngine.Core.GeoPoint test = new TAKEngine.Core.GeoPoint(44.238366, 9.6912326, 200.01, TAKEngine.Core.AltitudeReference.HAE);
+
+            dockPane = new CotDockPane(_cotMessageSender, _cotMessageReceiver,
+                _contactList, _messageHub, _imageStore, _missionPackageService,
+                _locationService, _communicationService, _dockingManager);
+            Log.d(TAG, "" + dockPane);
+            Log.d(TAG, "selfPosition : before : " + dockPane.SelfPosition);
+
+            dockPane.SelfPosition = test;
+            Log.d(TAG, "selfPosition : after : " + dockPane.SelfPosition);
+            CotEvent cotEvent = _locationService.GetSelfCotEvent();
+            Log.d(TAG, "Last Position with CotEvent : " + cotEvent);
+            Log.d(TAG, "" + cotEvent.GetSchema());
+            CotPoint cotPoint = new CotPoint(test);
+            cotEvent.Time = CoordinatedTime.FromCot(CoordinatedTime.CurrentDate().ToString());
+            cotEvent.Start = CoordinatedTime.FromCot(CoordinatedTime.CurrentDate().ToString());
+
+            //CotDetail cotDetail = new CotDetail();
+            Log.d(TAG, "cotEvent.Detail : " + cotEvent.Detail);
+            CotDetail cotDetail = cotEvent.Detail;
+
+
+            cotEvent.Point = cotPoint;
+            if (cotEvent.IsValid())
+            {
+                // dockPane.Send(cotEvent); // send is calling the send function.
+                // Opening the dockpane send not updating / sending the cot itself
+                Log.d(TAG, "New Position with CotEvent : " + cotEvent);
+            }
+            else
+            {
+                Log.e(TAG, "CotEvent is not valid !!! Here is the value of it : " + cotEvent);
+            }
+            // // Marker Manipulation - Special Marker
+            double testSpeed = 0.0;
+            double testHeading = 0.0;
+
+            PositionChangedEventArgs positionArgs = new PositionChangedEventArgs(test, testSpeed, testHeading);
+            //OnPositionChanged(this, positionArgs);
+            MapItem mapItem = _locationService.GetGpsObject();
+            MapMarker mapMarker = _locationService.GetGpsMarker();
+            mapItem.SetMarkerPosition(test);
+            Log.d(TAG, "mapMarker : " + mapMarker);
+            Log.d(TAG, "mapItem : " + mapItem);
+
+            // we create a new and not get the one which is currently existing
+            LocationPanel locationPanel = new LocationPanel(_messageHub, _unitDisplayPreferences);
+            locationPanel.ManualPositionRequested += LocationPanel_ManualPositionRequested;
+            LocationPanel_ManualPositionRequested(this, EventArgs.Empty);
+
+            Log.d(TAG, "Test LocationPanel.Callsign : " + locationPanel.Callsign);
+            Log.d(TAG, "Test LocationPanel.Position : " + locationPanel.Position);
+
+            //_locationService.StartSimulatedGps();
+
+            ManualResetEvent manualResetEvent;
+            ConnectionStatus ConnectionStatus = ConnectionStatus.Connecting;
+            ThreadPool.QueueUserWorkItem(delegate (object o)
+            {
+                TAKEngine.Core.GeoPoint position = (TAKEngine.Core.GeoPoint)o;
+                mapItem.SetMarkerPosition(position);
+                //ILocationProvider iprovider = new global::atakmap.i(mapItem);
+                //ManualResetEvent.WaitOne();
+
+            }, new TAKEngine.Core.GeoPoint(test));
+
+            WinTak.Location.Providers.PositionUpdatedEventArgs positionUpdatedEventArgs = new WinTak.Location.Providers.PositionUpdatedEventArgs(test, (FixQuality)testSpeed, testHeading);
+
+
+
+            //if (System.Windows.Application.Current.Dispatcher.CheckAccess())
+            //{
+            //    if (_locationProvider != null)
+            //    {
+            //        _locationProvider.StartAsync();
+            //    }
+            //    else
+            //    {
+            //        System.Windowa.Application.Current.Dispatcher.Invoke(() =>
+            //        {
+            //            if (_locationProvider != null)
+            //            {
+            //                _locationProvider.StartAsync();
+            //            }
+            //        });
+            //    }
+            //}
+
+            _statusIndicator.SetSelfMarkerRequested += StatusIndicator_SetSelfMarkerRequest;
+
+            //mapMarker = new MapMarker();
+            //mapMarker.ClampToSurface = true;
+            //mapMarker.Visible = true;
+            //mapMarker.Position = test;
+            //mapMarker.Orientation = MapMarkerBase.OrientationMode.Absolute;
+
+            _locationPreferences.GpsTypeChanged += LocationPreferences_GpsTypeChanged;
+            Log.d(TAG, "FollowTargetUpdateSpeed : " + _locationPreferences.FollowTargetUpdateSpeed);
+            Log.d(TAG, "GpsProvider : " + _locationPreferences.GpsProvider);
+            Log.d(TAG, "GpsType : " + _locationPreferences.GpsType);
+            Log.d(TAG, "BaudRate : " + _locationPreferences.BaudRate);
+            Log.d(TAG, "ListenPort : " + _locationPreferences.ListenPort);
+            Log.d(TAG, "UseGpsTime : " + _locationPreferences.UseGpsTime);
+            Log.d(TAG, "RequestTimeout : " + _locationPreferences.RequestTimeout);
+            Log.d(TAG, "StationaryLocation : " + _locationPreferences.StationaryLocation);
+            
+        }
+
+        private void LocationPreferences_GpsTypeChanged(object sender, GpsType e)
+        {
+            Log.d(TAG, MethodBase.GetCurrentMethod() + " : " + e);
+        }
+        private void StatusIndicator_SetSelfMarkerRequest(object sender, EventArgs e)
+        {
+            Log.d(TAG, "StatusIndicator_SetSelfMarkerRequest : " + sender);
+            Log.d(TAG, "StatusIndicator_SetSelfMarkerRequest : " + e);
+
+        }
+        private void LocationPanel_ManualPositionRequested(object sender, EventArgs e)
+        {
+            Log.d(TAG, MethodBase.GetCurrentMethod() + "");
+        }
+        private void OnPositionChanged(object sender, PositionChangedEventArgs e)
+        {
+            var newPosition = e.Position;
+            var newSpeed = e.Speed;
+            var newHeading = e.Heading;
+            Log.d(TAG, "OnPositionChanged : newPosition : " + newPosition);
+            UpdateSelfPosition(newPosition);
+        }
+
+        private void UpdateSelfPosition(TAKEngine.Core.GeoPoint newPosition)
+        {
+            Log.d(TAG, "UpdateSelfPosition ?");
+            
+        }
+
+        private void MoveMarker(IEditable marker, TAKEngine.Core.GeoPoint point, bool keepAltitude, PreciseCoordDetails precise)
+        {
+            if (!(marker.Geometry is IPoint point2))
+            {
+                Log.e(TAG, "Marker is not a Ipoint");
+                return;
+            }
+            _ = point2.Location;
+            TAKEngine.Core.GeoPoint geoPoint = new TAKEngine.Core.GeoPoint(point);
+            if (keepAltitude)
+            {
+                geoPoint.Altitude = this._elevationManager.GetElevation(geoPoint);
+                geoPoint.AltitudeRef = global::TAKEngine.Core.AltitudeReference.HAE;
+
+            }
+            point2.Location = geoPoint;
+            if (marker.Subject != null)
+            {
+                if (precise != null)
+                {
+
+                } // else if ()
+                //{
+
+                //}
+            }
         }
 
         /* Layout Example - Show Search Icon
